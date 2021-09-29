@@ -19,13 +19,16 @@ CPXResponse _$CPXResponseFromJson(Map<String, dynamic> json) {
     json['status'] as String,
     json['count_available_surveys'] as int,
     json['count_returned_surveys'] as int,
-  );
+  )..text = json['text'] == null
+      ? null
+      : CPXText.fromJson(json['text'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$CPXResponseToJson(CPXResponse instance) =>
     <String, dynamic>{
       'surveys': instance.surveys?.map((e) => e?.toJson())?.toList(),
       'transactions': instance.transactions?.map((e) => e?.toJson())?.toList(),
+      'text': instance.text?.toJson(),
       'status': instance.status,
       'count_available_surveys': instance.countAvailableSurveys,
       'count_returned_surveys': instance.countReturnedSurveys,
@@ -98,4 +101,18 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
       'is_paid_to_user': instance.isPaidToUser,
       'is_paid_to_user_datetime': instance.isPaidToUserDateTime,
       'is_paid_to_user_type': instance.isPaidToUserType,
+    };
+
+CPXText _$CPXTextFromJson(Map<String, dynamic> json) {
+  return CPXText(
+    json['currency_name_plural'] as String,
+    json['currency_name_singular'] as String,
+    json['shortcurt_min'] as String,
+  );
+}
+
+Map<String, dynamic> _$CPXTextToJson(CPXText instance) => <String, dynamic>{
+      'currency_name_plural': instance.currency_name_plural,
+      'currency_name_singular': instance.currency_name_singular,
+      'shortcurt_min': instance.shortcurt_min,
     };

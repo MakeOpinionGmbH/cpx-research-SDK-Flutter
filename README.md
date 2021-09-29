@@ -23,7 +23,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 
 # Preview
 <p align="center">
-  <img width="326" alt="CPXAndroid" src="https://user-images.githubusercontent.com/47904329/127741526-ca0804a0-d35a-4ba2-b9b2-53b900b41f6b.png"><img width="337" alt="CPXiOS" src="https://user-images.githubusercontent.com/47904329/127741524-3f67c068-e642-42da-9fc3-64783fee1034.png">
+  <img width="326" alt="CPXAndroid" src="https://user-images.githubusercontent.com/47904329/135334926-debde7ab-4783-431c-9cac-47e7a21f916e.png"><img width="337" alt="CPXiOS" src="https://user-images.githubusercontent.com/47904329/135334938-7aba4142-5e25-4759-8a96-7ecf6492e3d9.png">
 </p>
 
 # Installation
@@ -199,6 +199,24 @@ Widget build(BuildContext context) {
           ),
         );
       });
+}
+```
+
+## CPX Survey Cards
+First add the CPXResearch Widget with an easy config as in Getting Started (Expert) and leave the styles empty again.
+Now add the CPXSurveyCards Widget within in the Material App to display the Cards.
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text('Flutter SDK Demo App'),
+        CPXSurveyCards(),
+      ],
+    ),
+  );
 }
 ```
 

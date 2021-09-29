@@ -188,6 +188,7 @@ class CPXData {
   static final CPXData cpxData = CPXData();
   ValueNotifier<List<Survey>> surveys = ValueNotifier([]);
   ValueNotifier<List<Transaction>> transactions = ValueNotifier([]);
+  ValueNotifier<CPXText> text = ValueNotifier(null);
 
   void setSurveys(List<Survey> surveys) {
     this.surveys.value = surveys;
@@ -195,6 +196,10 @@ class CPXData {
 
   void setTransactions(List<Transaction> transactions) {
     this.transactions.value = transactions;
+  }
+
+  void setText(CPXText text) {
+    this.text.value = text;
   }
 }
 

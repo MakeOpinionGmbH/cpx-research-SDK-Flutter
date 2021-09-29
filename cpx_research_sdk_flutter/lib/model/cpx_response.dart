@@ -7,6 +7,7 @@ part 'cpx_response.g.dart';
 class CPXResponse {
   List<Survey> surveys;
   List<Transaction> transactions;
+  CPXText text;
   String status;
   @JsonKey(name: 'count_available_surveys')
   int countAvailableSurveys;
@@ -82,4 +83,22 @@ class Transaction {
   factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
 
   Map<String, dynamic> toJson() => _$TransactionToJson(this);
+}
+
+
+@JsonSerializable(explicitToJson: true)
+class CPXText {
+  @JsonKey(name: 'currency_name_plural')
+  String currency_name_plural;
+  @JsonKey(name: 'currency_name_singular')
+  String currency_name_singular;
+  @JsonKey(name: 'shortcurt_min')
+  String shortcurt_min;
+
+  CPXText(this.currency_name_plural, this.currency_name_singular,
+      this.shortcurt_min);
+
+  factory CPXText.fromJson(Map<String, dynamic> json) => _$CPXTextFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CPXTextToJson(this);
 }

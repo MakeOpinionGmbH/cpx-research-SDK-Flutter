@@ -1,5 +1,6 @@
 import 'package:cpx_research_sdk_flutter/cpx_logger.dart';
 import 'package:cpx_research_sdk_flutter/cpx_research.dart';
+import 'package:cpx_research_sdk_flutter/widgets/cpx_survey_cards.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -126,11 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            Text(
-              'CPX Research',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 60),
+            CPXSurveyCards(),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

@@ -117,6 +117,14 @@ class NetworkService {
                 CPXLogger.log("0 new transactions are available, ${cpxData.transactions.value.length.toString()} old transactions are available");
               }
             }
+            if (cpxResponse.text != null) {
+              if (cpxData.text.value.toString() != cpxResponse.text.toString()) {
+                cpxData.setText(cpxResponse.text);
+                CPXLogger.log('New text ist available: ' + cpxResponse.text.toString());
+              } else {
+                CPXLogger.log('Only the old text ist available: ' + cpxResponse.text.toString());
+              }
+            }
             controller.showCPXLayer();
           } else {
             CPXLogger.log("No surveys available");
