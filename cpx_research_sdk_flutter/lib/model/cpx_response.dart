@@ -9,13 +9,26 @@ class CPXResponse {
   List<Transaction> transactions;
   CPXText text;
   String status;
+  String error_code;
+  String error_message;
   @JsonKey(name: 'count_available_surveys')
   int countAvailableSurveys;
   @JsonKey(name: 'count_returned_surveys')
   int countReturnedSurveys;
-  CPXResponse(this.surveys, this.transactions, this.status, this.countAvailableSurveys, this.countReturnedSurveys);
 
-  factory CPXResponse.fromJson(Map<String, dynamic> json) => _$CPXResponseFromJson(json);
+
+  CPXResponse(
+      this.surveys,
+      this.transactions,
+      this.text,
+      this.status,
+      this.error_code,
+      this.error_message,
+      this.countAvailableSurveys,
+      this.countReturnedSurveys);
+
+  factory CPXResponse.fromJson(Map<String, dynamic> json) =>
+      _$CPXResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$CPXResponseToJson(this);
 }
@@ -25,6 +38,8 @@ class Survey {
   String id;
   int loi;
   String payout;
+  @JsonKey(name: 'payout_original')
+  String payoutOriginal;
   @JsonKey(name: 'conversion_rate')
   String conversionRate;
   @JsonKey(name: 'score')
@@ -39,8 +54,20 @@ class Survey {
   int top;
   int details;
 
+
   Survey(
-      this.id, this.loi, this.payout, this.conversionRate, this.score, this.qualityScore, this.statisticsRatingCount, this.statisticsRatingAvg, this.type, this.top, this.details);
+      this.id,
+      this.loi,
+      this.payout,
+      this.payoutOriginal,
+      this.conversionRate,
+      this.score,
+      this.qualityScore,
+      this.statisticsRatingCount,
+      this.statisticsRatingAvg,
+      this.type,
+      this.top,
+      this.details);
 
   factory Survey.fromJson(Map<String, dynamic> json) => _$SurveyFromJson(json);
 
@@ -77,14 +104,28 @@ class Transaction {
   @JsonKey(name: 'is_paid_to_user_type')
   String isPaidToUserType;
 
-  Transaction(this.transactionID, this.messageID, this.type, this.verdienstPublisher, this.verdienstUserLocalMoney, this.subId1, this.subId2, this.dateTime, this.status,
-      this.surveyId, this.ip, this.loi, this.isPaidToUser, this.isPaidToUserDateTime, this.isPaidToUserType);
+  Transaction(
+      this.transactionID,
+      this.messageID,
+      this.type,
+      this.verdienstPublisher,
+      this.verdienstUserLocalMoney,
+      this.subId1,
+      this.subId2,
+      this.dateTime,
+      this.status,
+      this.surveyId,
+      this.ip,
+      this.loi,
+      this.isPaidToUser,
+      this.isPaidToUserDateTime,
+      this.isPaidToUserType);
 
-  factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
+  factory Transaction.fromJson(Map<String, dynamic> json) =>
+      _$TransactionFromJson(json);
 
   Map<String, dynamic> toJson() => _$TransactionToJson(this);
 }
-
 
 @JsonSerializable(explicitToJson: true)
 class CPXText {
@@ -98,7 +139,8 @@ class CPXText {
   CPXText(this.currency_name_plural, this.currency_name_singular,
       this.shortcurt_min);
 
-  factory CPXText.fromJson(Map<String, dynamic> json) => _$CPXTextFromJson(json);
+  factory CPXText.fromJson(Map<String, dynamic> json) =>
+      _$CPXTextFromJson(json);
 
   Map<String, dynamic> toJson() => _$CPXTextToJson(this);
 }

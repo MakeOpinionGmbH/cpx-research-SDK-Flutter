@@ -92,15 +92,15 @@ class CPXCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    Widget getStars()
-    {
+    Widget getStars() {
       List<Icon> list = <Icon>[];
-      for(var i = 1; i <= 5; i++){
+      for (var i = 1; i <= 5; i++) {
         list.add(
           Icon(
             Icons.star,
-            color: i <= survey.statisticsRatingAvg ? config.starColor : config.inactiveStarColor,
+            color: i <= survey.statisticsRatingAvg
+                ? config.starColor
+                : config.inactiveStarColor,
           ),
         );
       }
@@ -124,13 +124,42 @@ class CPXCard extends StatelessWidget {
           children: [
             Column(
               children: [
-                FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    survey.payout,
-                    style: TextStyle(color: config.accentColor, fontSize: 18),
-                  ),
-                ),
+                survey.payoutOriginal != null ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              survey.payoutOriginal,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 18,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ),
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              survey.payout,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          survey.payout,
+                          style: TextStyle(
+                              color: config.accentColor, fontSize: 18),
+                        ),
+                      ),
                 FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(

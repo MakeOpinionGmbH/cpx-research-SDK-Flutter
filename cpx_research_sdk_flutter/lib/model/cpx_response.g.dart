@@ -16,12 +16,15 @@ CPXResponse _$CPXResponseFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Transaction.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    json['text'] == null
+        ? null
+        : CPXText.fromJson(json['text'] as Map<String, dynamic>),
     json['status'] as String,
+    json['error_code'] as String,
+    json['error_message'] as String,
     json['count_available_surveys'] as int,
     json['count_returned_surveys'] as int,
-  )..text = json['text'] == null
-      ? null
-      : CPXText.fromJson(json['text'] as Map<String, dynamic>);
+  );
 }
 
 Map<String, dynamic> _$CPXResponseToJson(CPXResponse instance) =>
@@ -30,6 +33,8 @@ Map<String, dynamic> _$CPXResponseToJson(CPXResponse instance) =>
       'transactions': instance.transactions?.map((e) => e?.toJson())?.toList(),
       'text': instance.text?.toJson(),
       'status': instance.status,
+      'error_code': instance.error_code,
+      'error_message': instance.error_message,
       'count_available_surveys': instance.countAvailableSurveys,
       'count_returned_surveys': instance.countReturnedSurveys,
     };
@@ -39,6 +44,7 @@ Survey _$SurveyFromJson(Map<String, dynamic> json) {
     json['id'] as String,
     json['loi'] as int,
     json['payout'] as String,
+    json['payout_original'] as String,
     json['conversion_rate'] as String,
     json['score'] as String,
     json['quality_score'] as String,
@@ -54,6 +60,7 @@ Map<String, dynamic> _$SurveyToJson(Survey instance) => <String, dynamic>{
       'id': instance.id,
       'loi': instance.loi,
       'payout': instance.payout,
+      'payout_original': instance.payoutOriginal,
       'conversion_rate': instance.conversionRate,
       'score': instance.score,
       'quality_score': instance.qualityScore,
