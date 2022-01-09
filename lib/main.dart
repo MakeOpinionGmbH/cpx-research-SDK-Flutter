@@ -119,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
+        child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -163,6 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 60),
           ],
+          ),
         ),
       ),
     );

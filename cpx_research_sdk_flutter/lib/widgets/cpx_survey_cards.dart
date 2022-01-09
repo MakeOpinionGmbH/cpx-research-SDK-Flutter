@@ -38,13 +38,19 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
 
   @override
   Widget build(BuildContext context) {
+    Orientation orientation = MediaQuery.of(context).orientation;
     return surveys.isNotEmpty
         ? SizedBox(
-            height: MediaQuery.of(context).size.width / config.cardCount + 30,
+            height: MediaQuery.of(context).size.width /
+                    (orientation == Orientation.portrait
+                        ? config.cardCount
+                        : config.cardCount * 2.5) +
+                30,
             child: GridView.builder(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               itemCount: surveys.length,
               scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
                 mainAxisSpacing: 5,
