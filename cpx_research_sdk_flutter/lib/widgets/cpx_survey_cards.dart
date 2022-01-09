@@ -30,7 +30,6 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   @override
   void initState() {
     cpxData.surveys.addListener(onSurveyUpdate);
-    fetchCPXSurveysAndTransactions();
     config = widget.config ?? CPXCardConfig();
 
     super.initState();
@@ -62,7 +61,7 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
           )
         : hideIfEmpty
             ? Container()
-            : Text("Keine Surveys verfügbar");
+            : Text("No Surveys available");
   }
 }
 
