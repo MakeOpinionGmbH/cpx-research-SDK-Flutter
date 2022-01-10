@@ -16,6 +16,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 - [Installation](#installation)
 - [Usage](#usage)
 - [Logging](#logging)
+- [Changelog](cpx_research_sdk_flutter/CHANGELOG.md)
 
 # Prerequisites
 - Android SDK 19 (KitKat) or newer

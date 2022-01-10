@@ -1,3 +1,11 @@
-## [0.0.1] - TODO: Add release date.
+## 0.2.0
 
-* TODO: Describe initial release.
+* Add survey cards
+
+## 0.1.0
+
+* Add cpx browser view
+* Add cpx widget overlay
+* Add public functions
+* Add logging
+* Add demo app
