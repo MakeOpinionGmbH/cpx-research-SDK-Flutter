@@ -81,6 +81,27 @@ class NetworkService {
     return Uri.https(BASE_URL, homeEndpoint, params);
   }
 
+  /// [onWebViewError] is sending the [errorCode], [errorDescription] and [errorDomain] to the CPX API, if the browser throws an error
+  void onWebViewError(
+      String errorCode, String errorDescription, String errorDomain) async {
+    Map<String, dynamic> params = getRequestParameter();
+    params['webViewErrorCode'] = errorCode;
+    params['webViewErrorDescription'] = errorDescription;
+    params['webViewErrorDomain'] = errorDomain;
+    Uri url = Uri.https(BASE_URL, homeEndpoint, params);
+    await http.post(url).then((response) {
+      if (response != null) {
+        if (response.statusCode == 200) {
+          CPXLogger.log("WebView Error was send");
+        } else {
+          CPXLogger.log("API error " + response.statusCode.toString());
+        }
+      }
+    }).onError((error, stackTrace) => CPXLogger.log(
+        "An error occurred while logging the browser error: " +
+            error.toString()));
+  }
+
   /// [setTransactionPaid] marks the transaction with the provided [transactionID] as paid
   void setTransactionPaid(String transactionID, String messageID) async {
     Map<String, dynamic> params = getRequestParameter();
@@ -99,8 +120,8 @@ class NetworkService {
           CPXLogger.log("API error " + response.statusCode.toString());
         }
       }
-    }).onError((error, stackTrace) =>
-        CPXLogger.log("Set Transaction Paid API call failed: " + error.toString()));
+    }).onError((error, stackTrace) => CPXLogger.log(
+        "'Set transaction paid' API call failed: " + error.toString()));
   }
 
   /// [fetchSurveysAndTransactions] requests surveys and transactions from the api

@@ -22,6 +22,7 @@ class _BrowserViewState extends State<BrowserView> {
   WebViewController _controller;
   List pages;
   BrowserTab activeTab;
+  bool isAlertDisplayed = false;
 
   /// [loadURL] loads the url in the webview
   void loadURL(int index) {
@@ -55,8 +56,11 @@ class _BrowserViewState extends State<BrowserView> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
-                    color: activeTab == BrowserTab.help ? controller.config.accentColor : Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+                    color: activeTab == BrowserTab.help
+                        ? controller.config.accentColor
+                        : Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.help_outline),
@@ -71,8 +75,11 @@ class _BrowserViewState extends State<BrowserView> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
-                    color: activeTab == BrowserTab.settings ? controller.config.accentColor : Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+                    color: activeTab == BrowserTab.settings
+                        ? controller.config.accentColor
+                        : Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.settings_outlined),
@@ -87,8 +94,11 @@ class _BrowserViewState extends State<BrowserView> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
-                    color: activeTab == BrowserTab.home ? controller.config.accentColor : Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+                    color: activeTab == BrowserTab.home
+                        ? controller.config.accentColor
+                        : Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.home_outlined),
@@ -104,7 +114,8 @@ class _BrowserViewState extends State<BrowserView> {
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.close),
@@ -131,16 +142,42 @@ class _BrowserViewState extends State<BrowserView> {
                     onPageStarted: (start) {
                       setState(() => isLoading = true);
                     },
+                    onWebResourceError: (error) {
+                      HapticFeedback.selectionClick();
+                      setState(() => isAlertDisplayed = true);
+                      CPXLogger.log("Browser error: " +
+                          error.errorCode.toString() +
+                          " | " +
+                          error.description);
+                      NetworkService().onWebViewError(
+                          error.errorCode.toString(),
+                          error.description,
+                          error.failingUrl);
+                    },
                   ),
                   if (isLoading)
                     LinearProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(controller.config.accentColor),
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                          controller.config.accentColor),
                       backgroundColor: Colors.white,
                     ),
-                  if (isLoading)
-                    Center(
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(controller.config.accentColor),
+                  if (isAlertDisplayed)
+                    Container(
+                      color: Colors.black87,
+                      child: AlertDialog(
+                        title: Text("Browser Error"),
+                        content: Text("An error occurred, while using the survey browser"),
+                        actions: [
+                          TextButton(
+                            child: Text("OK"),
+                            onPressed: () {
+                              HapticFeedback.selectionClick();
+                              setState(() => isAlertDisplayed = false);
+                              CPXLogger.log("Close CPX Browser");
+                              Controller.controller.showWidgets();
+                            },
+                          ),
+                        ],
                       ),
                     ),
                 ],
