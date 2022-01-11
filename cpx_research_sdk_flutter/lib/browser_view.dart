@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cpx_research_sdk_flutter/cpx_controller.dart';
 import 'package:cpx_research_sdk_flutter/cpx_logger.dart';
 import 'package:cpx_research_sdk_flutter/network_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -161,31 +164,41 @@ class _BrowserViewState extends State<BrowserView> {
                           controller.config.accentColor),
                       backgroundColor: Colors.white,
                     ),
-                  if (isAlertDisplayed)
-                    Container(
-                      color: Colors.black87,
-                      child: AlertDialog(
-                        title: Text("Browser Error"),
-                        content: Text("An error occurred, while using the survey browser"),
-                        actions: [
-                          TextButton(
-                            child: Text("OK"),
-                            onPressed: () {
-                              HapticFeedback.selectionClick();
-                              setState(() => isAlertDisplayed = false);
-                              CPXLogger.log("Close CPX Browser");
-                              Controller.controller.showWidgets();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                  if (isAlertDisplayed) ErrorAlertDialog(),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Container ErrorAlertDialog() {
+    Widget textButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        HapticFeedback.selectionClick();
+        setState(() => isAlertDisplayed = false);
+        CPXLogger.log("Close CPX Browser");
+        Controller.controller.showWidgets();
+      },
+    );
+    return Container(
+      color: Colors.black87,
+      child: Platform.isIOS
+          ? CupertinoAlertDialog(
+              title: Text("Browser Error"),
+              content:
+                  Text("An error occurred, while using the survey browser"),
+              actions: [textButton],
+            )
+          : AlertDialog(
+              title: Text("Browser Error"),
+              content:
+                  Text("An error occurred, while using the survey browser"),
+              actions: [textButton],
+            ),
     );
   }
 }
