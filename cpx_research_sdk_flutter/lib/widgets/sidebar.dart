@@ -40,31 +40,11 @@ class _SidebarState extends State<Sidebar> {
           HapticFeedback.selectionClick();
           Controller.controller.showBrowser(singleSurvey: widget.style.singleSurvey);
         },
-        child: Container(
-          constraints: BoxConstraints(
-            minWidth: MediaQuery.of(context).size.width * 0.1,
-            maxWidth: MediaQuery.of(context).size.width * 0.3,
-            minHeight: MediaQuery.of(context).size.height * 0.1,
-            maxHeight: MediaQuery.of(context).size.height * 0.8,
+        child: Image(
+          image: NetworkImage(
+            NetworkService().getCPXImage(type: "side", position: position, style: widget.style).toString(),
           ),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black54.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 3,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ],
-            borderRadius: radius,
-            color: Colors.transparent,
-          ),
-          child: Image(
-            image: NetworkImage(
-              NetworkService().getCPXImage(type: "side", position: position, style: widget.style).toString(),
-            ),
-            fit: BoxFit.cover,
-          ),
+          fit: BoxFit.cover,
         ),
       ),
     );
