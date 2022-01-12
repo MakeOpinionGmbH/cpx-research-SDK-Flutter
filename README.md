@@ -16,6 +16,7 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 - [Installation](#installation)
 - [Usage](#usage)
 - [Logging](#logging)
+- [Changelog](cpx_research_sdk_flutter/CHANGELOG.md)
 
 # Prerequisites
 - Android SDK 19 (KitKat) or newer
@@ -39,7 +40,7 @@ dependencies:
 
 2. Now import the package in your dart files and use it like any other Flutter package.
 ``` dart
-import 'package:cpx_research_sdk_flutter/cpx_research.dart';
+import 'package:cpx_research_sdk_flutter/cpx.dart';
 ```
 
 # Usage
@@ -233,6 +234,13 @@ CPXData.cpxData.surveys.addListener(() {
 ```dart
 CPXData.cpxData.transactions.addListener(() {
   // YOUR CODE - access transactions via CPXData.cpxData.transactions
+});
+```
+
+### Add browser state listener
+```dart
+Controller.controller.areCPXWidgetsDisplayed.addListener(() {
+  // YOUR CODE - access browser state via Controller.controller.areCPXWidgetsDisplayed
 });
 ```
 

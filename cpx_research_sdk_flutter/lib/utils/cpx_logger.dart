@@ -22,7 +22,7 @@ class CPXLogger {
   /// [timestamp] provides the current date and time for the log
   static String timestamp() {
     DateTime now = DateTime.now();
-    return "[${now.year.toString()}/${now.month.toString().padLeft(2,'0')}/${now.day.toString().padLeft(2,'0')} ${now.hour.toString().padLeft(2,'0')}:${now.minute.toString().padLeft(2,'0')}:${now.second.toString().padLeft(2,'0')}]";
+    return "[CPX ${now.year.toString()}/${now.month.toString().padLeft(2,'0')}/${now.day.toString().padLeft(2,'0')} ${now.hour.toString().padLeft(2,'0')}:${now.minute.toString().padLeft(2,'0')}:${now.second.toString().padLeft(2,'0')}]";
   }
 
 }
