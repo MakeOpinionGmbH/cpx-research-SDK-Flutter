@@ -95,13 +95,20 @@ class _MyHomePageState extends State<MyHomePage> {
     // YOUR CODE
   }
 
-  ///
+  /// [onBrowserVisibilityChanged] is called when the browser closes or opens
+  void onBrowserVisibilityChanged() {
+    // YOUR CODE
+    Controller.controller.areCPXWidgetsDisplayed.value ? print("Browser closed") : print("Browser opened");
+  }
+
+  /// Initialize all CPX components like logging and change listeners
   void initCPX() {
     CPXLogger.enableLogger(true);
-    CPXLogger.log("testmessage");
+    CPXLogger.log("I am a test log from CPX");
     CPXLogger.getLogs;
     cpxData.surveys.addListener(onSurveyUpdate);
     cpxData.transactions.addListener(onTransactionUpdate);
+    Controller.controller.areCPXWidgetsDisplayed.addListener(onBrowserVisibilityChanged);
   }
 
   @override

@@ -237,6 +237,13 @@ CPXData.cpxData.transactions.addListener(() {
 });
 ```
 
+### Add browser state listener
+```dart
+Controller.controller.areCPXWidgetsDisplayed.addListener(() {
+  // YOUR CODE - access browser state via Controller.controller.areCPXWidgetsDisplayed
+});
+```
+
 ### Fetch all available surveys and transactions for the user
 Add surveys and transactions listeners as shown before, to access the response
 ```dart
