@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.makeopinion.cpxresearchdemo.cpx_research_demo_flutter">
    <application
-        android:label="CPXResearch Demo Flutter"
+        android:label="CPX Demo Flutter"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
