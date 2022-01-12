@@ -40,7 +40,7 @@ dependencies:
 
 2. Now import the package in your dart files and use it like any other Flutter package.
 ``` dart
-import 'package:cpx_research_sdk_flutter/cpx_research.dart';
+import 'package:cpx_research_sdk_flutter/cpx.dart';
 ```
 
 # Usage

@@ -1,8 +1,9 @@
-import 'package:cpx_research_sdk_flutter/browser_view.dart';
-import 'package:cpx_research_sdk_flutter/cpx_logger.dart';
-import 'package:cpx_research_sdk_flutter/cpx_research.dart';
-import 'package:cpx_research_sdk_flutter/network_service.dart';
+import 'package:cpx_research_sdk_flutter/widgets/browser_view.dart';
+import 'package:cpx_research_sdk_flutter/utils/cpx_logger.dart';
+import 'package:cpx_research_sdk_flutter/utils/network_service.dart';
 import 'package:flutter/material.dart';
+
+import 'model/cpx_config.dart';
 
 class Controller {
   static final Controller controller = Controller();

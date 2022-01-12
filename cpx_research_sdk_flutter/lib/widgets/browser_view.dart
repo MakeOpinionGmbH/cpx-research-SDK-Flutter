@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:cpx_research_sdk_flutter/cpx_controller.dart';
-import 'package:cpx_research_sdk_flutter/cpx_logger.dart';
-import 'package:cpx_research_sdk_flutter/network_service.dart';
+import 'package:cpx_research_sdk_flutter/utils/cpx_logger.dart';
+import 'package:cpx_research_sdk_flutter/utils/network_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

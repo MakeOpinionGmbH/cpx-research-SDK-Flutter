@@ -1,6 +1,4 @@
-import 'package:cpx_research_sdk_flutter/cpx_logger.dart';
-import 'package:cpx_research_sdk_flutter/cpx_research.dart';
-import 'package:cpx_research_sdk_flutter/widgets/cpx_survey_cards.dart';
+import 'package:cpx_research_sdk_flutter/cpx.dart';
 import 'package:flutter/material.dart';
 
 void main() {

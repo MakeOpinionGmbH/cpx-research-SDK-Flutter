@@ -2,7 +2,7 @@ import 'package:cpx_research_sdk_flutter/model/cpx_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../cpx_research.dart';
+import '../cpx_data.dart';
 
 class CPXSurveyCards extends StatefulWidget {
   const CPXSurveyCards({Key key, this.config, this.texts}) : super(key: key);

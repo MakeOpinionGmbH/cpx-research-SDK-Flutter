@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:cpx_research_sdk_flutter/cpx_controller.dart';
-import 'package:cpx_research_sdk_flutter/cpx_logger.dart';
-import 'package:cpx_research_sdk_flutter/cpx_research.dart';
+import 'package:cpx_research_sdk_flutter/utils/cpx_logger.dart';
 import 'package:cpx_research_sdk_flutter/model/cpx_response.dart';
 import 'package:http/http.dart' as http;
+
+import '../cpx_data.dart';
+import '../model/cpx_style.dart';
 
 final String BASE_URL = "offers.cpx-research.com";
 final String API_URL = "jsscriptv1-live.cpx-research.com";
