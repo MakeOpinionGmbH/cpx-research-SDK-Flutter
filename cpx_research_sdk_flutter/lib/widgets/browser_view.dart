@@ -176,7 +176,10 @@ class _BrowserViewState extends State<BrowserView> {
 
   Container ErrorAlertDialog() {
     Widget textButton = TextButton(
-      child: Text("OK"),
+      child: Text(
+        "OK",
+        style: TextStyle(color: controller.config.accentColor),
+      ),
       onPressed: () {
         HapticFeedback.selectionClick();
         setState(() => isAlertDisplayed = false);

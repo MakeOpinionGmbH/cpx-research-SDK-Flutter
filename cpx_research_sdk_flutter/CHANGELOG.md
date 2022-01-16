@@ -1,3 +1,6 @@
+## 0.3.1
+* Fix survey card colors
+
 ## 0.3.0
 
 * Add original payout logic
