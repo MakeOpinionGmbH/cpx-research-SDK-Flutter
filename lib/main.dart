@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'Flutter SDK Demo App',
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
             ),
-            Text('Version 0.3.1'),
+            Text('Version 0.4.0'),
             SizedBox(height: 20),
             CPXSurveyCards(),
             ElevatedButton(
