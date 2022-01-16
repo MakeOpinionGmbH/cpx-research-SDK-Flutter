@@ -21,14 +21,14 @@ class CPXConfig {
   final String appID;
   final String userID;
   final Color accentColor;
-  final CPXStyle cornerWidget;
-  final CPXStyle sidebarWidget;
-  final CPXStyle notificationWidget;
+  final CPXStyle? cornerWidget;
+  final CPXStyle? sidebarWidget;
+  final CPXStyle? notificationWidget;
 
   CPXConfig({
-    @required this.appID,
-    @required this.userID,
-    this.accentColor,
+    required this.appID,
+    required this.userID,
+    this.accentColor = const Color(0xffFFAF20),
     this.cornerWidget,
     this.sidebarWidget,
     this.notificationWidget,

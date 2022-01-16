@@ -22,15 +22,15 @@ class BrowserView extends StatefulWidget {
 class _BrowserViewState extends State<BrowserView> {
   Controller controller = Controller.controller;
   bool isLoading = true;
-  WebViewController _controller;
-  List pages;
-  BrowserTab activeTab;
+  WebViewController? _controller;
+  late List pages;
+  late BrowserTab activeTab;
   bool isAlertDisplayed = false;
 
   /// [loadURL] loads the url in the webview
   void loadURL(int index) {
     if (_controller != null) {
-      _controller.loadUrl(pages[index]);
+      _controller!.loadUrl(pages[index]);
       CPXLogger.log("Load url: " + pages[index]);
     }
   }
@@ -155,7 +155,7 @@ class _BrowserViewState extends State<BrowserView> {
                       NetworkService().onWebViewError(
                           error.errorCode.toString(),
                           error.description,
-                          error.failingUrl);
+                          error.failingUrl ?? "no url");
                     },
                   ),
                   if (isLoading)

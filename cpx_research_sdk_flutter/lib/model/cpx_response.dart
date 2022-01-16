@@ -5,16 +5,16 @@ part 'cpx_response.g.dart';
 /// [CPXResponse] contains the response model for surveys and transactions
 @JsonSerializable(explicitToJson: true)
 class CPXResponse {
-  List<Survey> surveys;
-  List<Transaction> transactions;
-  CPXText text;
-  String status;
-  String error_code;
-  String error_message;
+  List<Survey>? surveys;
+  List<Transaction>? transactions;
+  CPXText? text;
+  String? status;
+  String? error_code;
+  String? error_message;
   @JsonKey(name: 'count_available_surveys')
-  int countAvailableSurveys;
+  int? countAvailableSurveys;
   @JsonKey(name: 'count_returned_surveys')
-  int countReturnedSurveys;
+  int? countReturnedSurveys;
 
 
   CPXResponse(
@@ -35,24 +35,24 @@ class CPXResponse {
 
 @JsonSerializable(explicitToJson: true)
 class Survey {
-  String id;
-  int loi;
-  String payout;
+  String? id;
+  int? loi;
+  String? payout;
   @JsonKey(name: 'payout_original')
-  String payoutOriginal;
+  String? payoutOriginal;
   @JsonKey(name: 'conversion_rate')
-  String conversionRate;
+  String? conversionRate;
   @JsonKey(name: 'score')
-  String score;
+  String? score;
   @JsonKey(name: 'quality_score')
-  String qualityScore;
+  String? qualityScore;
   @JsonKey(name: 'statistics_rating_count')
-  int statisticsRatingCount;
+  int? statisticsRatingCount;
   @JsonKey(name: 'statistics_rating_avg')
-  int statisticsRatingAvg;
-  String type;
-  int top;
-  int details;
+  int? statisticsRatingAvg;
+  String? type;
+  int? top;
+  int? details;
 
 
   Survey(
@@ -77,32 +77,32 @@ class Survey {
 @JsonSerializable(explicitToJson: true)
 class Transaction {
   @JsonKey(name: 'trans_id')
-  String transactionID;
+  String? transactionID;
   @JsonKey(name: 'message_id')
-  String messageID;
-  String type;
+  String? messageID;
+  String? type;
   @JsonKey(name: 'verdienst_publisher')
-  String verdienstPublisher;
+  String? verdienstPublisher;
   @JsonKey(name: 'verdienst_user_local_money')
-  String verdienstUserLocalMoney;
+  String? verdienstUserLocalMoney;
   @JsonKey(name: 'subid_1')
-  String subId1;
+  String? subId1;
   @JsonKey(name: 'subid_2')
-  String subId2;
+  String? subId2;
   @JsonKey(name: 'datetime')
-  String dateTime;
-  String status;
+  String? dateTime;
+  String? status;
   @JsonKey(name: 'survey_id')
-  String surveyId;
+  String? surveyId;
   @JsonKey(name: 'ip')
-  String ip;
-  String loi;
+  String? ip;
+  String? loi;
   @JsonKey(name: 'is_paid_to_user')
-  String isPaidToUser;
+  String? isPaidToUser;
   @JsonKey(name: 'is_paid_to_user_datetime')
-  String isPaidToUserDateTime;
+  String? isPaidToUserDateTime;
   @JsonKey(name: 'is_paid_to_user_type')
-  String isPaidToUserType;
+  String? isPaidToUserType;
 
   Transaction(
       this.transactionID,
@@ -130,11 +130,11 @@ class Transaction {
 @JsonSerializable(explicitToJson: true)
 class CPXText {
   @JsonKey(name: 'currency_name_plural')
-  String currency_name_plural;
+  String? currency_name_plural;
   @JsonKey(name: 'currency_name_singular')
-  String currency_name_singular;
+  String? currency_name_singular;
   @JsonKey(name: 'shortcurt_min')
-  String shortcurt_min;
+  String? shortcurt_min;
 
   CPXText(this.currency_name_plural, this.currency_name_singular,
       this.shortcurt_min);

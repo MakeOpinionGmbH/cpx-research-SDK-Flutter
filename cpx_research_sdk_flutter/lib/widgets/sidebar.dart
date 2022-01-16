@@ -15,20 +15,18 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  String position;
-  BorderRadius radius;
+  late String position;
+  late BorderRadius radius;
   Alignment getSidePosition() {
     switch (widget.style.position) {
       case WidgetPosition.SideLeft:
         position = "left";
         radius = BorderRadius.only(topRight: Radius.circular(widget.style.roundedCorners), bottomRight: Radius.circular(widget.style.roundedCorners));
         return Alignment.centerLeft;
-        break;
       default:
         position = "right";
         radius = BorderRadius.only(topLeft: Radius.circular(widget.style.roundedCorners), bottomLeft: Radius.circular(widget.style.roundedCorners));
         return Alignment.centerRight;
-        break;
     }
   }
 

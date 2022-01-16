@@ -15,7 +15,7 @@ class Corner extends StatefulWidget {
 }
 
 class _CornerState extends State<Corner> {
-  String position;
+  late String position;
   int rotate = 1;
   Alignment getCornerPosition() {
     switch (widget.style.position) {
@@ -23,22 +23,18 @@ class _CornerState extends State<Corner> {
         position = "bottomleft";
         rotate = 3;
         return Alignment.bottomLeft;
-        break;
       case WidgetPosition.CornerTopLeft:
         position = "topleft";
         rotate = 0;
         return Alignment.topLeft;
-        break;
       case WidgetPosition.CornerBottomRight:
         position = "bottomright";
         rotate = 2;
         return Alignment.bottomRight;
-        break;
       default:
         position = "topright";
         rotate = 1;
         return Alignment.topRight;
-        break;
     }
   }
 
@@ -113,7 +109,7 @@ class _ClipShadowShadowPainter extends CustomPainter {
   final Shadow shadow;
   final CustomClipper<Path> clipper;
 
-  _ClipShadowShadowPainter({@required this.shadow, @required this.clipper});
+  _ClipShadowShadowPainter({required this.shadow, required this.clipper});
 
   @override
   void paint(Canvas canvas, Size size) {
