@@ -71,6 +71,7 @@ class CPXCardConfig {
   final Color inactiveStarColor;
   final Color starColor;
   final Color textColor;
+  final Color payoutColor;
   final int cardCount;
 
   CPXCardConfig({
@@ -79,6 +80,7 @@ class CPXCardConfig {
     this.inactiveStarColor = const Color(0xffdfdfdf),
     this.starColor = const Color(0xffffc400),
     this.textColor = Colors.black,
+    this.payoutColor = Colors.red,
     this.cardCount = 3,
   });
 }
@@ -137,7 +139,7 @@ class CPXCard extends StatelessWidget {
                             child: Text(
                               survey.payoutOriginal,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: config.textColor,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18,
                                 decoration: TextDecoration.lineThrough,
@@ -149,7 +151,7 @@ class CPXCard extends StatelessWidget {
                             child: Text(
                               survey.payout,
                               style: TextStyle(
-                                color: Colors.red,
+                                color: config.payoutColor,
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
                               ),

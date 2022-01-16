@@ -63,7 +63,7 @@ packages:
       path: cpx_research_sdk_flutter
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.3.0"
   crypto:
     dependency: transitive
     description:
