@@ -1,6 +1,4 @@
-import 'package:cpx_research_sdk_flutter/cpx_logger.dart';
-import 'package:cpx_research_sdk_flutter/cpx_research.dart';
-import 'package:cpx_research_sdk_flutter/widgets/cpx_survey_cards.dart';
+import 'package:cpx_research_sdk_flutter/cpx.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -97,13 +95,20 @@ class _MyHomePageState extends State<MyHomePage> {
     // YOUR CODE
   }
 
-  ///
+  /// [onBrowserVisibilityChanged] is called when the browser closes or opens
+  void onBrowserVisibilityChanged() {
+    // YOUR CODE
+    Controller.controller.areCPXWidgetsDisplayed.value ? print("Browser closed") : print("Browser opened");
+  }
+
+  /// Initialize all CPX components like logging and change listeners
   void initCPX() {
     CPXLogger.enableLogger(true);
-    CPXLogger.log("testmessage");
+    CPXLogger.log("I am a test log from CPX");
     CPXLogger.getLogs;
     cpxData.surveys.addListener(onSurveyUpdate);
     cpxData.transactions.addListener(onTransactionUpdate);
+    Controller.controller.areCPXWidgetsDisplayed.addListener(onBrowserVisibilityChanged);
   }
 
   @override
@@ -119,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
+        child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -126,6 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'Flutter SDK Demo App',
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
             ),
+            Text('Version 0.3.1'),
             SizedBox(height: 20),
             CPXSurveyCards(),
             ElevatedButton(
@@ -163,6 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 60),
           ],
+          ),
         ),
       ),
     );

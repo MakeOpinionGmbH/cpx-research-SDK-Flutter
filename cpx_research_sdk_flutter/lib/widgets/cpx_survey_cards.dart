@@ -2,7 +2,7 @@ import 'package:cpx_research_sdk_flutter/model/cpx_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../cpx_research.dart';
+import '../cpx_data.dart';
 
 class CPXSurveyCards extends StatefulWidget {
   const CPXSurveyCards({Key key, this.config, this.texts}) : super(key: key);
@@ -30,7 +30,6 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   @override
   void initState() {
     cpxData.surveys.addListener(onSurveyUpdate);
-    fetchCPXSurveysAndTransactions();
     config = widget.config ?? CPXCardConfig();
 
     super.initState();
@@ -38,13 +37,19 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
 
   @override
   Widget build(BuildContext context) {
+    Orientation orientation = MediaQuery.of(context).orientation;
     return surveys.isNotEmpty
         ? SizedBox(
-            height: MediaQuery.of(context).size.width / config.cardCount + 30,
+            height: MediaQuery.of(context).size.width /
+                    (orientation == Orientation.portrait
+                        ? config.cardCount
+                        : config.cardCount * 2.5) +
+                30,
             child: GridView.builder(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               itemCount: surveys.length,
               scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
                 mainAxisSpacing: 5,
@@ -56,7 +61,7 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
           )
         : hideIfEmpty
             ? Container()
-            : Text("Keine Surveys verfügbar");
+            : Text("No Surveys available");
   }
 }
 
@@ -66,6 +71,7 @@ class CPXCardConfig {
   final Color inactiveStarColor;
   final Color starColor;
   final Color textColor;
+  final Color payoutColor;
   final int cardCount;
 
   CPXCardConfig({
@@ -74,6 +80,7 @@ class CPXCardConfig {
     this.inactiveStarColor = const Color(0xffdfdfdf),
     this.starColor = const Color(0xffffc400),
     this.textColor = Colors.black,
+    this.payoutColor = Colors.red,
     this.cardCount = 3,
   });
 }
@@ -92,15 +99,15 @@ class CPXCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    Widget getStars()
-    {
+    Widget getStars() {
       List<Icon> list = <Icon>[];
-      for(var i = 1; i <= 5; i++){
+      for (var i = 1; i <= 5; i++) {
         list.add(
           Icon(
             Icons.star,
-            color: i <= survey.statisticsRatingAvg ? config.starColor : config.inactiveStarColor,
+            color: i <= survey.statisticsRatingAvg
+                ? config.starColor
+                : config.inactiveStarColor,
           ),
         );
       }
@@ -124,13 +131,42 @@ class CPXCard extends StatelessWidget {
           children: [
             Column(
               children: [
-                FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    survey.payout,
-                    style: TextStyle(color: config.accentColor, fontSize: 18),
-                  ),
-                ),
+                survey.payoutOriginal != null ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              survey.payoutOriginal,
+                              style: TextStyle(
+                                color: config.textColor,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 18,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ),
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              survey.payout,
+                              style: TextStyle(
+                                color: config.payoutColor,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          survey.payout,
+                          style: TextStyle(
+                              color: config.accentColor, fontSize: 18),
+                        ),
+                      ),
                 FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(

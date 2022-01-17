@@ -1,8 +1,9 @@
 import 'package:cpx_research_sdk_flutter/cpx_controller.dart';
-import 'package:cpx_research_sdk_flutter/cpx_research.dart';
-import 'package:cpx_research_sdk_flutter/network_service.dart';
+import 'package:cpx_research_sdk_flutter/utils/network_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../model/cpx_style.dart';
 
 class NotificationWidget extends StatefulWidget {
   final CPXStyle style;
