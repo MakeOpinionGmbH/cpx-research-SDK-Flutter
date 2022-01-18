@@ -36,6 +36,16 @@ dependencies:
     git: 
       url: https://github.com/MakeOpinionGmbH/cpx-research-SDK-Flutter.git
       path: cpx_research_sdk_flutter
+      // without a ref Flutter uses the main branch by default
+```
+Null Safety
+``` yaml
+dependencies:
+  cpx_research_sdk_flutter:
+    git: 
+      url: https://github.com/MakeOpinionGmbH/cpx-research-SDK-Flutter.git
+      path: cpx_research_sdk_flutter
+      ref: latest // use the branch "latest" to enable null safety
 ```
 
 2. Now import the package in your dart files and use it like any other Flutter package.
@@ -206,6 +216,7 @@ Widget build(BuildContext context) {
 ## CPX Survey Cards
 First add the CPXResearch Widget with an easy config as in Getting Started (Expert) and leave the styles empty again.
 Now add the CPXSurveyCards Widget within in the Material App to display the Cards.
+### Easy
 ```dart
 @override
 Widget build(BuildContext context) {
@@ -215,6 +226,31 @@ Widget build(BuildContext context) {
       children: <Widget>[
         Text('Flutter SDK Demo App'),
         CPXSurveyCards(),
+      ],
+    ),
+  );
+}
+```
+### Advanced
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text('Flutter SDK Demo App'),
+        CPXSurveyCards(
+          config: CPXCardConfig(
+            accentColor: Colors.green,
+            cardBackgroundColor: Colors.black,
+            cardCount: 2,
+            inactiveStarColor: Colors.grey,
+            starColor: Colors.lightGreenAccent,
+            payoutColor: Colors.orange,
+            textColor: Colors.white
+          ),
+        ),
       ],
     ),
   );
