@@ -8,19 +8,19 @@ import 'utils/network_service.dart';
 /// The class [CPXData] provides a ValueNotifier for surveys and transactions
 class CPXData {
   static final CPXData cpxData = CPXData();
-  ValueNotifier<List<Survey>> surveys = ValueNotifier([]);
-  ValueNotifier<List<Transaction>> transactions = ValueNotifier([]);
-  ValueNotifier<CPXText> text = ValueNotifier(null);
+  ValueNotifier<List<Survey>?> surveys = ValueNotifier([]);
+  ValueNotifier<List<Transaction>?> transactions = ValueNotifier([]);
+  ValueNotifier<CPXText?> text = ValueNotifier(null);
 
-  void setSurveys(List<Survey> surveys) {
+  void setSurveys(List<Survey>? surveys) {
     this.surveys.value = surveys;
   }
 
-  void setTransactions(List<Transaction> transactions) {
+  void setTransactions(List<Transaction>? transactions) {
     this.transactions.value = transactions;
   }
 
-  void setText(CPXText text) {
+  void setText(CPXText? text) {
     this.text.value = text;
   }
 }
@@ -39,7 +39,7 @@ void hideCpxLayer() {
 ///
 /// To open the CPX Browser with a specific survey, provide the optional [surveyID].
 ///
-void showBrowser([String surveyID]) {
+void showBrowser([String? surveyID]) {
   surveyID != null ? Controller.controller.showBrowser(singleSurvey: true, surveyID: surveyID) : Controller.controller.showBrowser();
 }
 

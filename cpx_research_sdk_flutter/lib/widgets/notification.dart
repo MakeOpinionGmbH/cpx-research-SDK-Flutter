@@ -15,17 +15,15 @@ class NotificationWidget extends StatefulWidget {
 }
 
 class _NotificationWidgetState extends State<NotificationWidget> {
-  String position;
+  late String position;
   Alignment getNotificationPosition() {
     switch (widget.style.position) {
       case WidgetPosition.ScreenCenterTop:
         position = "top";
         return Alignment.topCenter;
-        break;
       default:
         position = "bottom";
         return Alignment.bottomCenter;
-        break;
     }
   }
 

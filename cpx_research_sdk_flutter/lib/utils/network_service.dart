@@ -24,19 +24,20 @@ class NetworkService {
   Map<String, dynamic> getRequestParameter() {
     // TODO: Update package version here as well
     String version =
-        "0.3.1"; //  The package_info_plus package just shows the app version not the package version and adding the pubspec.yaml to the assets is a security issue for flutter web.
-    return controller.config != null
-        ? {
+        "0.4.0"; //  The package_info_plus package just shows the app version not the package version and adding the pubspec.yaml to the assets is a security issue for flutter web.
+    return {
             'app_id': controller.config.appID,
             'ext_user_id': controller.config.userID,
             'sdk': 'flutter',
             'sdkVersion': version
-          }
-        : {};
+          };
   }
 
   /// [getCPXImage] provides the image url for the widgets
-  Uri getCPXImage({String type, String position, CPXStyle style}) {
+  Uri getCPXImage(
+      {required String type,
+      required String position,
+      required CPXStyle style}) {
     String backgroundColor =
         "." + style.backgroundColor.value.toRadixString(16).substring(2);
     String textColor =
@@ -63,7 +64,7 @@ class NetworkService {
       if (controller.singleSurveyID != null) {
         params['survey_id'] = controller.singleSurveyID;
       } else {
-        params['survey_id'] = cpxData.surveys.value[0].id;
+        params['survey_id'] = cpxData.surveys.value![0].id;
       }
     }
     return Uri.https(BASE_URL, homeEndpoint, params);
@@ -92,14 +93,12 @@ class NetworkService {
     params['webViewErrorDomain'] = errorDomain;
     Uri url = Uri.https(BASE_URL, homeEndpoint, params);
     await http.post(url).then((response) {
-      if (response != null) {
-        if (response.statusCode == 200) {
-          CPXLogger.log("WebView Error was send");
-        } else {
-          CPXLogger.log("API error " + response.statusCode.toString());
-        }
+      if (response.statusCode == 200) {
+        CPXLogger.log("WebView Error was send");
+      } else {
+        CPXLogger.log("API error " + response.statusCode.toString());
       }
-    }).onError((error, stackTrace) => CPXLogger.log(
+    }).onError((dynamic error, stackTrace) => CPXLogger.log(
         "An error occurred while logging the browser error: " +
             error.toString()));
   }
@@ -114,15 +113,13 @@ class NetworkService {
     CPXLogger.log(
         "Mark transaction $transactionID as paid with url: " + url.toString());
     await http.post(url).then((response) {
-      if (response != null) {
-        if (response.statusCode == 200) {
-          CPXLogger.log("Transaction $transactionID marked as paid");
-          fetchSurveysAndTransactions();
-        } else {
-          CPXLogger.log("API error " + response.statusCode.toString());
-        }
+      if (response.statusCode == 200) {
+        CPXLogger.log("Transaction $transactionID marked as paid");
+        fetchSurveysAndTransactions();
+      } else {
+        CPXLogger.log("API error " + response.statusCode.toString());
       }
-    }).onError((error, stackTrace) => CPXLogger.log(
+    }).onError((dynamic error, stackTrace) => CPXLogger.log(
         "'Set transaction paid' API call failed: " + error.toString()));
   }
 
@@ -132,63 +129,59 @@ class NetworkService {
     CPXLogger.log("Fetch surveys from api with url: " + url.toString());
     await http.post(url).then(
       (response) {
-        if (response != null) {
-          if (response.statusCode == 200) {
-            CPXLogger.log("Request successfull");
-            Map results = json.decode(response.body);
-            CPXResponse cpxResponse = CPXResponse.fromJson(results);
-            if (cpxResponse.surveys != null && cpxResponse.surveys.isNotEmpty) {
+        if (response.statusCode == 200) {
+          CPXLogger.log("Request successfull");
+          Map results = json.decode(response.body);
+          CPXResponse cpxResponse =
+              CPXResponse.fromJson(results as Map<String, dynamic>);
+          if (cpxResponse.surveys != null && cpxResponse.surveys!.isNotEmpty) {
+            CPXLogger.log(
+                "Surveys and transactions fetched successfully from api");
+            if (cpxData.surveys.value.toString() !=
+                cpxResponse.surveys.toString()) {
+              cpxData.setSurveys(cpxResponse.surveys);
+              CPXLogger.log(cpxResponse.surveys!.length.toString() +
+                  " new surveys are available");
+            } else {
               CPXLogger.log(
-                  "Surveys and transactions fetched successfully from api");
-              if (cpxData.surveys.value.toString() !=
-                  cpxResponse.surveys.toString()) {
-                cpxData.setSurveys(cpxResponse.surveys);
-                CPXLogger.log(cpxResponse.surveys.length.toString() +
-                    " new surveys are available");
+                  "0 new surveys are available, ${cpxData.surveys.value!.length.toString()} old surveys are available");
+            }
+            if (cpxResponse.transactions != null &&
+                cpxResponse.transactions!.isNotEmpty) {
+              if (cpxData.transactions.value.toString() !=
+                  cpxResponse.transactions.toString()) {
+                cpxData.setTransactions(cpxResponse.transactions);
+                CPXLogger.log(cpxResponse.transactions!.length.toString() +
+                    " new transactions are available");
               } else {
                 CPXLogger.log(
-                    "0 new surveys are available, ${cpxData.surveys.value.length.toString()} old surveys are available");
-              }
-              if (cpxResponse.transactions != null &&
-                  cpxResponse.transactions.isNotEmpty) {
-                if (cpxData.transactions.value.toString() !=
-                    cpxResponse.transactions.toString()) {
-                  cpxData.setTransactions(cpxResponse.transactions);
-                  CPXLogger.log(cpxResponse.transactions.length.toString() +
-                      " new transactions are available");
-                } else {
-                  CPXLogger.log(
-                      "0 new transactions are available, ${cpxData.transactions.value.length.toString()} old transactions are available");
-                }
-              }
-              if (cpxResponse.text != null) {
-                if (cpxData.text.value.toString() !=
-                    cpxResponse.text.toString()) {
-                  cpxData.setText(cpxResponse.text);
-                  CPXLogger.log(
-                      'New text ist available: ' + cpxResponse.text.toString());
-                } else {
-                  CPXLogger.log('Only the old text ist available: ' +
-                      cpxResponse.text.toString());
-                }
-              }
-              controller.showCPXLayer();
-            } else {
-              CPXLogger.log("No surveys available");
-              controller.hideCPXLayer();
-              if (cpxResponse.error_code != null) {
-                CPXLogger.log(
-                    "API error message: " + cpxResponse.error_message);
+                    "0 new transactions are available, ${cpxData.transactions.value!.length.toString()} old transactions are available");
               }
             }
+            if (cpxResponse.text != null) {
+              if (cpxData.text.value.toString() !=
+                  cpxResponse.text.toString()) {
+                cpxData.setText(cpxResponse.text);
+                CPXLogger.log(
+                    'New text ist available: ' + cpxResponse.text.toString());
+              } else {
+                CPXLogger.log('Only the old text ist available: ' +
+                    cpxResponse.text.toString());
+              }
+            }
+            controller.showCPXLayer();
           } else {
-            CPXLogger.log("API error " + response.statusCode.toString());
+            CPXLogger.log("No surveys available");
+            controller.hideCPXLayer();
+            if (cpxResponse.error_code != null) {
+              CPXLogger.log("API error message: " + cpxResponse.error_message!);
+            }
           }
         } else {
-          CPXLogger.log("Survey API call failed");
+          CPXLogger.log("API error " + response.statusCode.toString());
         }
       },
-    ).onError((error, stackTrace) =>
+    ).onError((dynamic error, stackTrace) =>
         CPXLogger.log("Survey API call failed: " + error.toString()));
   }
 }

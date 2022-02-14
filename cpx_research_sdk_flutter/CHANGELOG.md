@@ -1,4 +1,10 @@
+## 0.4.0 - Null Safety
+
+* migrate Package to Null Safety
+* migrate App to Null Safety
+
 ## 0.3.1
+
 * Fix survey card colors
 
 ## 0.3.0

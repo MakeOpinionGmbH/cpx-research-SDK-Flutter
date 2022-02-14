@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         return Material(
           child: Stack(
             children: [
-              child,
+              child!,
               // Advanced CPX
               CPXResearch(config: config)
             ],
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'Flutter SDK Demo App',
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
             ),
-            Text('Version 0.3.1'),
+            Text('Version 0.4.0'),
             SizedBox(height: 20),
             CPXSurveyCards(),
             ElevatedButton(
@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Show Webview"),
             ),
             ElevatedButton(
-              onPressed: () => showBrowser(cpxData.surveys.value[0].id),
+              onPressed: () => showBrowser(cpxData.surveys.value![0].id),
               child: Text("Show Single Survey Webview"),
             ),
             SizedBox(height: 60),
