@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import '../cpx_data.dart';
 
 class CPXSurveyCards extends StatefulWidget {
-  const CPXSurveyCards({Key key, this.config, this.texts}) : super(key: key);
-  final CPXCardConfig config;
+  const CPXSurveyCards({Key? key, this.config, this.texts}) : super(key: key);
+  final CPXCardConfig? config;
   final texts;
 
   @override
@@ -16,14 +16,14 @@ class CPXSurveyCards extends StatefulWidget {
 class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   CPXData cpxData = CPXData.cpxData;
   List<Survey> surveys = [];
-  CPXCardConfig config;
+  late CPXCardConfig config;
 
   var hideIfEmpty = false;
 
   void onSurveyUpdate() {
     setState(() {
       surveys.clear();
-      surveys.addAll(cpxData.surveys.value);
+      surveys.addAll(cpxData.surveys.value!);
     });
   }
 
@@ -90,11 +90,11 @@ class CPXCard extends StatelessWidget {
     this.survey,
     this.config,
     this.cpxText, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final Survey survey;
-  final CPXText cpxText;
+  final CPXText? cpxText;
   final CPXCardConfig config;
 
   @override
@@ -105,7 +105,7 @@ class CPXCard extends StatelessWidget {
         list.add(
           Icon(
             Icons.star,
-            color: i <= survey.statisticsRatingAvg
+            color: i <= survey.statisticsRatingAvg!
                 ? config.starColor
                 : config.inactiveStarColor,
           ),
@@ -118,7 +118,7 @@ class CPXCard extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            primary: Colors.white,
+            primary: config.cardBackgroundColor,
             onPrimary: config.inactiveStarColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20))),
@@ -137,7 +137,7 @@ class CPXCard extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              survey.payoutOriginal,
+                              survey.payoutOriginal!,
                               style: TextStyle(
                                 color: config.textColor,
                                 fontWeight: FontWeight.normal,
@@ -149,7 +149,7 @@ class CPXCard extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              survey.payout,
+                              survey.payout!,
                               style: TextStyle(
                                 color: config.payoutColor,
                                 fontSize: 28,
@@ -162,7 +162,7 @@ class CPXCard extends StatelessWidget {
                     : FittedBox(
                         fit: BoxFit.fitWidth,
                         child: Text(
-                          survey.payout,
+                          survey.payout!,
                           style: TextStyle(
                               color: config.accentColor, fontSize: 18),
                         ),
@@ -170,7 +170,7 @@ class CPXCard extends StatelessWidget {
                 FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    cpxText != null ? cpxText.currency_name_plural : 'Coins',
+                    cpxText != null ? cpxText!.currency_name_plural! : 'Coins',
                     style: TextStyle(color: config.accentColor),
                   ),
                 ),
@@ -185,11 +185,11 @@ class CPXCard extends StatelessWidget {
                   Icon(
                     Icons.watch_later_outlined,
                     color: config.accentColor,
-                    size: Theme.of(context).textTheme.subtitle1.fontSize,
+                    size: Theme.of(context).textTheme.subtitle1!.fontSize,
                   ),
                   SizedBox(width: 5),
                   Text(
-                    '${survey.loi.toString() ?? ''} ${cpxText != null ? cpxText.shortcurt_min : 'Mins'}',
+                    '${survey.loi ?? ''} ${cpxText != null ? cpxText!.shortcurt_min : 'Mins'}',
                     style: TextStyle(color: config.textColor),
                   ),
                 ],

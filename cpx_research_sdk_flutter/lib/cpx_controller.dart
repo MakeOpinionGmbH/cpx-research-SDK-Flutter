@@ -11,10 +11,10 @@ class Controller {
   ValueNotifier<bool> isCPXResearchLayerDisplayed = ValueNotifier(false);
   ValueNotifier<bool> isCPXNotificationDisplayed = ValueNotifier(true);
 
-  CPXConfig config;
-  BrowserTab activeTab;
-  bool isSingleSurveyDisplayed;
-  String singleSurveyID;
+  late CPXConfig config;
+  late BrowserTab activeTab;
+  late bool isSingleSurveyDisplayed;
+  String? singleSurveyID;
 
   /// [showWidgets] displays the banner widgets and hides the webview widget
   void showWidgets() {
@@ -24,7 +24,7 @@ class Controller {
   }
 
   /// [showBrowser] displays the webview widget and hides the banner widgets
-  void showBrowser({BrowserTab currentTab = BrowserTab.home, bool singleSurvey = false, String surveyID}) {
+  void showBrowser({BrowserTab currentTab = BrowserTab.home, bool singleSurvey = false, String? surveyID}) {
     areCPXWidgetsDisplayed.value = false;
     CPXLogger.log("Show CPX Browser");
     activeTab = currentTab;

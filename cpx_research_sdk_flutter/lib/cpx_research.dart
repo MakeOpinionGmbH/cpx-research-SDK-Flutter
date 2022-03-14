@@ -14,14 +14,14 @@ import 'widgets/sidebar.dart';
 class CPXResearch extends StatefulWidget {
   final CPXConfig config;
 
-  CPXResearch({@required this.config});
+  CPXResearch({required this.config});
 
   @override
   _CPXResearchState createState() => _CPXResearchState();
 }
 
 class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
-  Timer _timer;
+  late Timer _timer;
 
   /// The function [_startTimer] starts the automatic survey check every 120 seconds
   void _startTimer() {
@@ -38,14 +38,14 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
 
   /// The function [_stopTimer] stops the automatic survey check
   void _stopTimer() {
-    _timer?.cancel();
+    _timer.cancel();
     CPXLogger.log("Timer for automatic survey check stopped");
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     Controller.controller.config = widget.config;
     _startTimer();
   }
@@ -68,7 +68,7 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
   @override
   void dispose() {
     _stopTimer();
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -88,9 +88,9 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
                   return SafeArea(
                     child: Stack(
                       children: [
-                        if (widget.config.cornerWidget != null) Corner(widget.config.cornerWidget),
-                        if (widget.config.sidebarWidget != null) Sidebar(widget.config.sidebarWidget),
-                        if (widget.config.notificationWidget != null) NotificationWidget(widget.config.notificationWidget)
+                        if (widget.config.cornerWidget != null) Corner(widget.config.cornerWidget!),
+                        if (widget.config.sidebarWidget != null) Sidebar(widget.config.sidebarWidget!),
+                        if (widget.config.notificationWidget != null) NotificationWidget(widget.config.notificationWidget!)
                       ],
                     ),
                   );
