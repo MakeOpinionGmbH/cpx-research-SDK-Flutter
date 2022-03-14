@@ -30,6 +30,8 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 # Installation
 
 1. Add the package to the dependencies in your pubspec.yaml file.
+❗️ Null-Safety: with version `0.4.0` we introduced null-safety.
+
 ``` yaml
 dependencies:
   cpx_research_sdk_flutter:
@@ -37,15 +39,8 @@ dependencies:
       url: https://github.com/MakeOpinionGmbH/cpx-research-SDK-Flutter.git
       path: cpx_research_sdk_flutter
       // without a ref Flutter uses the main branch by default
-```
-Null Safety
-``` yaml
-dependencies:
-  cpx_research_sdk_flutter:
-    git: 
-      url: https://github.com/MakeOpinionGmbH/cpx-research-SDK-Flutter.git
-      path: cpx_research_sdk_flutter
-      ref: latest // use the branch "latest" to enable null safety
+      // use ref to get different versions, like 0.3.1 or 0.4.1
+      // ref: 0.4.1
 ```
 
 2. Now import the package in your dart files and use it like any other Flutter package.
@@ -293,7 +288,7 @@ markTransactionAsPaid("<transactionID>", "<messageID>");
 ```
 
 ### Open WebView
-Open the WebView (optionally with specific a survey ID)
+Open the WebView (optionally with a specific survey ID)
 ```dart
 showBrowser("surveyID");
 ```

@@ -1,19 +1,25 @@
+## 0.4.1
+
+* Update `webview_flutter` package version to `^3.0.1`
+* Fix `survey card background`
+* Delete `pubspec.lock` for SDK (recommended)
+
 ## 0.4.0 - Null Safety
 
-* migrate Package to Null Safety
-* migrate App to Null Safety
+* Migrate package to `Null Safety`
+* Migrate app to `Null Safety`
 
 ## 0.3.1
 
-* Fix survey card colors
+* Fix `survey card colors`
 
 ## 0.3.0
 
 * Add original payout logic
 * Add landscape layout
-* Add changelog
+* Add `changelog.md`
 * Add survey browser error handling
-* Add browser state listener
+* Add `browser state listener`
 * Add app icon for demo app
 * Improved logs
 * Optimized CPX import
@@ -21,12 +27,12 @@
 
 ## 0.2.0
 
-* Add survey cards
+* Add `survey cards`
 
 ## 0.1.0
 
-* Add cpx browser view
-* Add cpx widget overlay
+* Add `cpx browser view`
+* Add `cpx widget overlay`
 * Add public functions
 * Add logging
-* Add demo app
+* Add `demo app`
