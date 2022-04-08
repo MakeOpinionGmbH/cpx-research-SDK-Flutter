@@ -29,6 +29,7 @@
 .pub-cache/
 .pub/
 build/
+cpx_research_sdk_flutter/pubspec.lock
 
 # Android related
 **/android/**/gradle-wrapper.jar
