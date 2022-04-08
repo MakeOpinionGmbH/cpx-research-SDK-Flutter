@@ -210,7 +210,7 @@ Widget build(BuildContext context) {
 
 ## CPX Survey Cards
 First add the CPXResearch Widget with an easy config as in Getting Started (Expert) and leave the styles empty again.
-Now add the CPXSurveyCards Widget within in the Material App to display the Cards.
+Now add the CPXSurveyCards Widget within the Material App to display the Cards.
 ### Easy
 ```dart
 @override
@@ -236,6 +236,8 @@ Widget build(BuildContext context) {
       children: <Widget>[
         Text('Flutter SDK Demo App'),
         CPXSurveyCards(
+          hideIfEmpty: true,        // use either the 'hideIfEmpty' or the 'noSurveysWidget' property
+          noSurveysWidget: Text('I show up, if there are no surveys available'),
           config: CPXCardConfig(
             accentColor: Colors.green,
             cardBackgroundColor: Colors.black,
@@ -310,4 +312,9 @@ void initState() {
 To allow haptic feedback from the package you probably have to add the following code in the AndroidManifest.xml
 ``` xml
 <uses-permission android:name="android.permission.VIBRATE" />
+```
+
+On some devices it might be necessary to add the internet permission to the AndroidManifest.xml
+``` xml
+<uses-permission android:name="android.permission.INTERNET"/>
 ```

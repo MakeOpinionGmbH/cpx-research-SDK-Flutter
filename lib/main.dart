@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text('Version 0.4.1'),
             SizedBox(height: 20),
-            CPXSurveyCards(),
+            CPXSurveyCards(noSurveysWidget: Text('I show up, if there are no surveys available'),),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
