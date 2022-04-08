@@ -5,9 +5,10 @@ import 'package:flutter/services.dart';
 import '../cpx_data.dart';
 
 class CPXSurveyCards extends StatefulWidget {
-  const CPXSurveyCards({Key? key, this.config, this.texts}) : super(key: key);
+  const CPXSurveyCards({Key? key, this.config, this.noSurveysWidget, this.hideIfEmpty = false}) : super(key: key);
   final CPXCardConfig? config;
-  final texts;
+  final Widget? noSurveysWidget;
+  final bool hideIfEmpty;
 
   @override
   _CPXSurveyCardsState createState() => _CPXSurveyCardsState();
@@ -18,20 +19,14 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   List<Survey> surveys = [];
   late CPXCardConfig config;
 
-  var hideIfEmpty = false;
-
   void onSurveyUpdate() {
-    setState(() {
-      surveys.clear();
-      surveys.addAll(cpxData.surveys.value!);
-    });
+    setState(() => surveys = cpxData.surveys.value != null ? cpxData.surveys.value! : []);
   }
 
   @override
   void initState() {
     cpxData.surveys.addListener(onSurveyUpdate);
     config = widget.config ?? CPXCardConfig();
-
     super.initState();
   }
 
@@ -59,9 +54,9 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
               },
             ),
           )
-        : hideIfEmpty
+        : widget.hideIfEmpty
             ? Container()
-            : Text("No Surveys available");
+            : widget.noSurveysWidget ?? Text("No Surveys available");
   }
 }
 

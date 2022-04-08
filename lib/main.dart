@@ -132,9 +132,9 @@ class _MyHomePageState extends State<MyHomePage> {
               'Flutter SDK Demo App',
               style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
             ),
-            Text('Version 0.4.1'),
+            Text('Version 0.4.2'),
             SizedBox(height: 20),
-            CPXSurveyCards(),
+            CPXSurveyCards(noSurveysWidget: Text('I show up, if there are no surveys available'),),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

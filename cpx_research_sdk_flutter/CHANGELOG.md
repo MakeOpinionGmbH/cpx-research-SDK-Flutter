@@ -1,3 +1,10 @@
+## 0.4.2
+
+* Add customizable `noSurveyWidget` and `hideIfEmpty` properties to `CPXSurveyCards`
+* Fix `CPXSurveyCard` state refresh
+* Update `http` package version to `^0.13.4`
+* Update `webview_flutter` package version to `^3.0.2`
+
 ## 0.4.1
 
 * Update `webview_flutter` package version to `^3.0.1`
