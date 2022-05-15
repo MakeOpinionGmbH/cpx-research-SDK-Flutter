@@ -132,7 +132,7 @@ class CPXCard extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              survey.payoutOriginal!,
+                              survey.payoutOriginal ?? '?',
                               style: TextStyle(
                                 color: config.textColor,
                                 fontWeight: FontWeight.normal,
