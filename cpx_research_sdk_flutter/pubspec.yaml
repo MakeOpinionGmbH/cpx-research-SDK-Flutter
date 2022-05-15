@@ -11,8 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.4
-  webview_flutter: ^3.0.2
-  json_annotation: ^4.4.0
+  webview_flutter: ^3.0.4
+  json_annotation: ^4.5.0
 
 
 dev_dependencies:
