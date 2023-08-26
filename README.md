@@ -15,6 +15,9 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 - [Preview](#preview)
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Getting Started](#getting-started-easy)
+  - [CPX Widgets](#getting-started-advanced)
+  - [CPX Survey Cards](#cpx-survey-cards)
 - [Logging](#logging)
 - [Changelog](cpx_research_sdk_flutter/CHANGELOG.md)
 
@@ -26,6 +29,10 @@ This SDK is owned by [MakeOpinion GmbH](http://www.makeopinion.com).
 <p align="center">
   <img width="326" alt="CPXAndroid" src="https://user-images.githubusercontent.com/47904329/135334926-debde7ab-4783-431c-9cac-47e7a21f916e.png"><img width="337" alt="CPXiOS" src="https://user-images.githubusercontent.com/47904329/135334938-7aba4142-5e25-4759-8a96-7ecf6492e3d9.png">
 </p>
+
+# Videotutorial
+Click the image to watch a step-by-step tutorial on how to use the SDK.
+[![Watch a step by step tutorial](https://img.youtube.com/vi/BoHKdlLGdfA/maxres1.jpg)](https://youtu.be/BoHKdlLGdfA "cpx-research.com Tutorial Flutter Integration - Monetize your App or Website")
 
 # Installation
 
@@ -210,7 +217,7 @@ Widget build(BuildContext context) {
 
 ## CPX Survey Cards
 First add the CPXResearch Widget with an easy config as in Getting Started (Expert) and leave the styles empty again.
-Now add the CPXSurveyCards Widget within the Material App to display the Cards.
+Now add the CPXSurveyCards Widget anywhere within the Material App to display the Cards.
 ### Easy
 ```dart
 @override
@@ -227,6 +234,7 @@ Widget build(BuildContext context) {
 }
 ```
 ### Advanced
+To customize the styling and behavior of the cards, add the following properties.
 ```dart
 @override
 Widget build(BuildContext context) {

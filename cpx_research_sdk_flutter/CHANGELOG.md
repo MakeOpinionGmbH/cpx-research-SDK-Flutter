@@ -1,3 +1,8 @@
+## 0.4.3
+* Fix `CPXSurveyCard` payoutOriginal null pointer error
+* Update `webview_flutter` package version to `^3.0.4`
+* Update `json_annotation` package version to `^4.5.0`
+
 ## 0.4.2
 
 * Add customizable `noSurveyWidget` and `hideIfEmpty` properties to `CPXSurveyCards`

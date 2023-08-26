@@ -24,7 +24,7 @@ class NetworkService {
   Map<String, dynamic> getRequestParameter() {
     // TODO: Update package version here as well
     String version =
-        "0.4.2"; //  The package_info_plus package just shows the app version not the package version and adding the pubspec.yaml to the assets is a security issue for flutter web.
+        "0.4.3"; //  The package_info_plus package just shows the app version not the package version and adding the pubspec.yaml to the assets is a security issue for flutter web.
     return {
             'app_id': controller.config.appID,
             'ext_user_id': controller.config.userID,
