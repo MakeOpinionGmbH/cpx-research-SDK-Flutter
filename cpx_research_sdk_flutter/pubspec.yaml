@@ -1,7 +1,7 @@
 name: cpx_research_sdk_flutter
 description: CPX Research SDK Flutter
-version: 0.4.2
-homepage: https://www.dualmeta.io
+version: 0.4.3
+homepage: https://www.makeopinion.com
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
