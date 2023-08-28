@@ -26,22 +26,17 @@ class NetworkService {
     String version =
         "0.4.3"; //  The package_info_plus package just shows the app version not the package version and adding the pubspec.yaml to the assets is a security issue for flutter web.
     return {
-            'app_id': controller.config.appID,
-            'ext_user_id': controller.config.userID,
-            'sdk': 'flutter',
-            'sdkVersion': version
-          };
+      'app_id': controller.config.appID,
+      'ext_user_id': controller.config.userID,
+      'sdk': 'flutter',
+      'sdkVersion': version
+    };
   }
 
   /// [getCPXImage] provides the image url for the widgets
-  Uri getCPXImage(
-      {required String type,
-      required String position,
-      required CPXStyle style}) {
-    String backgroundColor =
-        "." + style.backgroundColor.value.toRadixString(16).substring(2);
-    String textColor =
-        "." + style.textColor.value.toRadixString(16).substring(2);
+  Uri getCPXImage({required String type, required String position, required CPXStyle style}) {
+    String backgroundColor = "." + style.backgroundColor.value.toRadixString(16).substring(2);
+    String textColor = "." + style.textColor.value.toRadixString(16).substring(2);
     Map<String, dynamic> params = getRequestParameter();
     params['type'] = type;
     params['width'] = style.width.toString();
@@ -52,8 +47,7 @@ class NetworkService {
     params['position'] = position;
     params['text'] = style.text;
     params['textcolor'] = textColor;
-    params['textsize'] =
-        (type == "corner" ? style.textSize : style.textSize / 10).toString();
+    params['textsize'] = (type == "corner" ? style.textSize : style.textSize / 10).toString();
     return Uri.https(IMAGE_URL, imageEndpoint, params);
   }
 
@@ -85,8 +79,7 @@ class NetworkService {
   }
 
   /// [onWebViewError] is sending the [errorCode], [errorDescription] and [errorDomain] to the CPX API, if the browser throws an error
-  void onWebViewError(
-      String errorCode, String errorDescription, String errorDomain) async {
+  void onWebViewError(String errorCode, String errorDescription, String errorDomain) async {
     Map<String, dynamic> params = getRequestParameter();
     params['webViewErrorCode'] = errorCode;
     params['webViewErrorDescription'] = errorDescription;
@@ -98,9 +91,8 @@ class NetworkService {
       } else {
         CPXLogger.log("API error " + response.statusCode.toString());
       }
-    }).onError((dynamic error, stackTrace) => CPXLogger.log(
-        "An error occurred while logging the browser error: " +
-            error.toString()));
+    }).onError((dynamic error, stackTrace) =>
+        CPXLogger.log("An error occurred while logging the browser error: " + error.toString()));
   }
 
   /// [setTransactionPaid] marks the transaction with the provided [transactionID] as paid
@@ -110,8 +102,7 @@ class NetworkService {
     params['transactionId'] = transactionID;
     params['messageId'] = messageID;
     Uri url = Uri.https(API_URL, surveyEndpoint, params);
-    CPXLogger.log(
-        "Mark transaction $transactionID as paid with url: " + url.toString());
+    CPXLogger.log("Mark transaction $transactionID as paid with url: " + url.toString());
     await http.post(url).then((response) {
       if (response.statusCode == 200) {
         CPXLogger.log("Transaction $transactionID marked as paid");
@@ -119,8 +110,8 @@ class NetworkService {
       } else {
         CPXLogger.log("API error " + response.statusCode.toString());
       }
-    }).onError((dynamic error, stackTrace) => CPXLogger.log(
-        "'Set transaction paid' API call failed: " + error.toString()));
+    }).onError((dynamic error, stackTrace) =>
+        CPXLogger.log("'Set transaction paid' API call failed: " + error.toString()));
   }
 
   /// [fetchSurveysAndTransactions] requests surveys and transactions from the api
@@ -132,24 +123,18 @@ class NetworkService {
         if (response.statusCode == 200) {
           CPXLogger.log("Request successfull");
           Map results = json.decode(response.body);
-          CPXResponse cpxResponse =
-              CPXResponse.fromJson(results as Map<String, dynamic>);
+          CPXResponse cpxResponse = CPXResponse.fromJson(results as Map<String, dynamic>);
           if (cpxResponse.surveys != null && cpxResponse.surveys!.isNotEmpty) {
-            CPXLogger.log(
-                "Surveys and transactions fetched successfully from api");
-            if (cpxData.surveys.value.toString() !=
-                cpxResponse.surveys.toString()) {
+            CPXLogger.log("Surveys and transactions fetched successfully from api");
+            if (cpxData.surveys.value.toString() != cpxResponse.surveys.toString()) {
               cpxData.setSurveys(cpxResponse.surveys);
-              CPXLogger.log(cpxResponse.surveys!.length.toString() +
-                  " new surveys are available");
+              CPXLogger.log(cpxResponse.surveys!.length.toString() + " new surveys are available");
             } else {
               CPXLogger.log(
                   "0 new surveys are available, ${cpxData.surveys.value!.length.toString()} old surveys are available");
             }
-            if (cpxResponse.transactions != null &&
-                cpxResponse.transactions!.isNotEmpty) {
-              if (cpxData.transactions.value.toString() !=
-                  cpxResponse.transactions.toString()) {
+            if (cpxResponse.transactions != null && cpxResponse.transactions!.isNotEmpty) {
+              if (cpxData.transactions.value.toString() != cpxResponse.transactions.toString()) {
                 cpxData.setTransactions(cpxResponse.transactions);
                 CPXLogger.log(cpxResponse.transactions!.length.toString() +
                     " new transactions are available");
@@ -159,14 +144,11 @@ class NetworkService {
               }
             }
             if (cpxResponse.text != null) {
-              if (cpxData.text.value.toString() !=
-                  cpxResponse.text.toString()) {
+              if (cpxData.text.value.toString() != cpxResponse.text.toString()) {
                 cpxData.setText(cpxResponse.text);
-                CPXLogger.log(
-                    'New text ist available: ' + cpxResponse.text.toString());
+                CPXLogger.log('New text ist available');
               } else {
-                CPXLogger.log('Only the old text ist available: ' +
-                    cpxResponse.text.toString());
+                CPXLogger.log('Only the old text ist available');
               }
             }
             controller.showCPXLayer();

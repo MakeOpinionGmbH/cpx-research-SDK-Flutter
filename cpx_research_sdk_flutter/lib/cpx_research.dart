@@ -45,7 +45,7 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     Controller.controller.config = widget.config;
     _startTimer();
   }
@@ -68,7 +68,7 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
   @override
   void dispose() {
     _stopTimer();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

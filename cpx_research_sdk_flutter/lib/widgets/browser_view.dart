@@ -23,15 +23,17 @@ class _BrowserViewState extends State<BrowserView> {
   Controller controller = Controller.controller;
   bool isLoading = true;
   WebViewController? _controller;
-  late List pages;
+  late List<Uri> pages;
   late BrowserTab activeTab;
   bool isAlertDisplayed = false;
 
   /// [loadURL] loads the url in the webview
   void loadURL(int index) {
     if (_controller != null) {
-      _controller!.loadUrl(pages[index]);
-      CPXLogger.log("Load url: " + pages[index]);
+      _controller!.loadRequest(pages[index]);
+      CPXLogger.log("Load url: ${pages[index]}");
+    } else {
+      CPXLogger.log("Failed to load url: ${pages[index]} | WebViewController is null");
     }
   }
 
@@ -39,11 +41,33 @@ class _BrowserViewState extends State<BrowserView> {
   void initState() {
     activeTab = widget.currentTab;
     pages = [
-      NetworkService().getHomeURL().toString(),
-      NetworkService().getSettingsURL().toString(),
-      NetworkService().getHelpURL().toString(),
+      NetworkService().getHomeURL(),
+      NetworkService().getSettingsURL(),
+      NetworkService().getHelpURL(),
     ];
+    initWebView();
     super.initState();
+  }
+
+  initWebView() {
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (start) => setState(() => isLoading = true),
+          onPageFinished: (finish) => setState(() => isLoading = false),
+          onWebResourceError: (error) {
+            HapticFeedback.selectionClick();
+            setState(() => isAlertDisplayed = true);
+            CPXLogger.log(
+                "Browser error: " + error.errorCode.toString() + " | " + error.description);
+            NetworkService().onWebViewError(
+                error.errorCode.toString(), error.description, error.url ?? "no url");
+          },
+        ),
+      )
+      ..loadRequest(pages[activeTab == BrowserTab.settings ? 1 : 0]);
   }
 
   @override
@@ -59,11 +83,9 @@ class _BrowserViewState extends State<BrowserView> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
-                    color: activeTab == BrowserTab.help
-                        ? controller.config.accentColor
-                        : Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10.0)),
+                    color:
+                        activeTab == BrowserTab.help ? controller.config.accentColor : Colors.white,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.help_outline),
@@ -81,8 +103,7 @@ class _BrowserViewState extends State<BrowserView> {
                     color: activeTab == BrowserTab.settings
                         ? controller.config.accentColor
                         : Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10.0)),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.settings_outlined),
@@ -97,11 +118,9 @@ class _BrowserViewState extends State<BrowserView> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
-                    color: activeTab == BrowserTab.home
-                        ? controller.config.accentColor
-                        : Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10.0)),
+                    color:
+                        activeTab == BrowserTab.home ? controller.config.accentColor : Colors.white,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.home_outlined),
@@ -117,8 +136,7 @@ class _BrowserViewState extends State<BrowserView> {
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
                     color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10.0)),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.close),
@@ -135,36 +153,13 @@ class _BrowserViewState extends State<BrowserView> {
             Expanded(
               child: Stack(
                 children: [
-                  WebView(
-                    onWebViewCreated: (WebViewController c) => _controller = c,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    initialUrl: pages[activeTab == BrowserTab.settings ? 1 : 0],
-                    onPageFinished: (finish) {
-                      setState(() => isLoading = false);
-                    },
-                    onPageStarted: (start) {
-                      setState(() => isLoading = true);
-                    },
-                    onWebResourceError: (error) {
-                      HapticFeedback.selectionClick();
-                      setState(() => isAlertDisplayed = true);
-                      CPXLogger.log("Browser error: " +
-                          error.errorCode.toString() +
-                          " | " +
-                          error.description);
-                      NetworkService().onWebViewError(
-                          error.errorCode.toString(),
-                          error.description,
-                          error.failingUrl ?? "no url");
-                    },
-                  ),
+                  WebViewWidget(controller: _controller!),
                   if (isLoading)
                     LinearProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          controller.config.accentColor),
+                      valueColor: new AlwaysStoppedAnimation<Color>(controller.config.accentColor),
                       backgroundColor: Colors.white,
                     ),
-                  if (isAlertDisplayed) ErrorAlertDialog(),
+                  if (isAlertDisplayed) showErrorAlertDialog(),
                 ],
               ),
             ),
@@ -174,7 +169,7 @@ class _BrowserViewState extends State<BrowserView> {
     );
   }
 
-  Container ErrorAlertDialog() {
+  Container showErrorAlertDialog() {
     Widget textButton = TextButton(
       child: Text(
         "OK",
@@ -192,14 +187,12 @@ class _BrowserViewState extends State<BrowserView> {
       child: Platform.isIOS
           ? CupertinoAlertDialog(
               title: Text("Browser Error"),
-              content:
-                  Text("An error occurred, while using the survey browser"),
+              content: Text("An error occurred, while using the survey browser"),
               actions: [textButton],
             )
           : AlertDialog(
               title: Text("Browser Error"),
-              content:
-                  Text("An error occurred, while using the survey browser"),
+              content: Text("An error occurred, while using the survey browser"),
               actions: [textButton],
             ),
     );

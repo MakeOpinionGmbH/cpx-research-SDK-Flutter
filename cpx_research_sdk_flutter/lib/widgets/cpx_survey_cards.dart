@@ -4,6 +4,15 @@ import 'package:flutter/services.dart';
 
 import '../cpx_data.dart';
 
+
+/// With [CPXSurveyCards] you can add the CPX Survey Cards
+///
+/// The [config] defines the style of the CPX Survey Cards
+///
+/// The [noSurveysWidget] will display the given parameter widget if there are no surveys available
+///
+/// The [hideIfEmpty] defines if the entire widget is hidden if there are no surveys to display
+///
 class CPXSurveyCards extends StatefulWidget {
   const CPXSurveyCards({Key? key, this.config, this.noSurveysWidget, this.hideIfEmpty = false}) : super(key: key);
   final CPXCardConfig? config;
@@ -59,6 +68,23 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
             : widget.noSurveysWidget ?? Text("No Surveys available");
   }
 }
+
+/// With [CPXCardConfig] you can style the CPX Survey Cards
+///
+/// The [accentColor] defines the color of the coin amount
+///
+/// The [cardBackgroundColor] defines the background color of the card
+///
+/// The [inactiveStarColor] defines the color of the inactive rating stars
+///
+/// The [starColor] defines the color of the active rating stars
+///
+/// The [textColor] defines the color of the duration of the survey
+///
+/// The [payoutColor] defines the color of the special reward, if available
+///
+/// The [cardCount] defines how many cards are displayed next to each other and has an impact on the width of the cards
+///
 
 class CPXCardConfig {
   final Color accentColor;
