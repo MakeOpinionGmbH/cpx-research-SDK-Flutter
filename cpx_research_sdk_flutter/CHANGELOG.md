@@ -1,3 +1,14 @@
+## 0.4.4
+* Update Android gradle version, target and compile SDK to 31
+* Update `dart` sdk version to `>=2.18`
+* Update `http` package version to `^1.1.0`
+* Update `json_annotation` package version to `^4.7.0`
+* Update `json_serializable` package version to `^6.6.1 `
+* Update `webview_flutter` package version to `^4.2.2`
+  * Change WebView to WebViewWidget and implement WebViewController
+  * Delete Settings Tab from Browser View 
+  * Add back, reload and opinion button onWebResourceError websites
+
 ## 0.4.3
 * Fix `CPXSurveyCard` payoutOriginal null pointer error
 * Update `webview_flutter` package version to `^3.0.4`
