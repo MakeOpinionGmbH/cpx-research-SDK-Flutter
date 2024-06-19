@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cpx_research_sdk_flutter/cpx_controller.dart';
 import 'package:cpx_research_sdk_flutter/utils/cpx_logger.dart';
 import 'package:cpx_research_sdk_flutter/utils/network_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -58,14 +57,11 @@ class _BrowserViewState extends State<BrowserView> {
           onPageFinished: (finish) => setState(() => isLoading = false),
           onWebResourceError: (error) {
             HapticFeedback.selectionClick();
-            if ((error.errorCode == -1 && Platform.isAndroid) ||
-                (error.errorCode == -1022 && Platform.isIOS)) {
+            if ((error.errorCode == -1 && Platform.isAndroid) || (error.errorCode == -1022 && Platform.isIOS)) {
               setState(() => isAlertDisplayed = true);
             }
-            CPXLogger.log(
-                "Browser error: " + error.errorCode.toString() + " | " + error.description);
-            NetworkService().onWebViewError(
-                error.errorCode.toString(), error.description, error.url ?? "no url");
+            CPXLogger.log("Browser error: " + error.errorCode.toString() + " | " + error.description);
+            NetworkService().onWebViewError(error.errorCode.toString(), error.description, error.url ?? "no url");
           },
         ),
       )
@@ -85,8 +81,7 @@ class _BrowserViewState extends State<BrowserView> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
-                    color:
-                        activeTab == BrowserTab.help ? controller.config.accentColor : Colors.white,
+                    color: activeTab == BrowserTab.help ? controller.config.accentColor : Colors.white,
                     borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
@@ -103,8 +98,7 @@ class _BrowserViewState extends State<BrowserView> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: new BoxDecoration(
-                    color:
-                        activeTab == BrowserTab.home ? controller.config.accentColor : Colors.white,
+                    color: activeTab == BrowserTab.home ? controller.config.accentColor : Colors.white,
                     borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
                   ),
                   child: IconButton(
@@ -145,8 +139,7 @@ class _BrowserViewState extends State<BrowserView> {
                     WebViewWidget(controller: _controller!),
                     if (isLoading)
                       LinearProgressIndicator(
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(controller.config.accentColor),
+                        valueColor: new AlwaysStoppedAnimation<Color>(controller.config.accentColor),
                         backgroundColor: Colors.white,
                       ),
                     if (isAlertDisplayed) showReloadOnError(),

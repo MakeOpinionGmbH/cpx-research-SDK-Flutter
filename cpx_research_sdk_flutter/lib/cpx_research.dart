@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:cpx_research_sdk_flutter/widgets/browser_view.dart';
 import 'package:cpx_research_sdk_flutter/cpx_controller.dart';
 import 'package:cpx_research_sdk_flutter/utils/cpx_logger.dart';
 import 'package:cpx_research_sdk_flutter/utils/network_service.dart';
+import 'package:cpx_research_sdk_flutter/widgets/browser_view.dart';
 import 'package:flutter/material.dart';
 
 import 'model/cpx_config.dart';
@@ -27,9 +27,9 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
   void _startTimer() {
     _timer = Timer.periodic(
       Duration(seconds: 120),
-      (Timer t) => {
-        NetworkService().fetchSurveysAndTransactions(),
-        Controller.controller.showNotification(),
+      (Timer t) {
+        NetworkService().fetchSurveysAndTransactions();
+        Controller.controller.showNotification();
       },
     );
     CPXLogger.log("Timer for automatic survey check started");
@@ -90,7 +90,8 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
                       children: [
                         if (widget.config.cornerWidget != null) Corner(widget.config.cornerWidget!),
                         if (widget.config.sidebarWidget != null) Sidebar(widget.config.sidebarWidget!),
-                        if (widget.config.notificationWidget != null) NotificationWidget(widget.config.notificationWidget!)
+                        if (widget.config.notificationWidget != null)
+                          NotificationWidget(widget.config.notificationWidget!)
                       ],
                     ),
                   );
