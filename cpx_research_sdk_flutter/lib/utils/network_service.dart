@@ -148,7 +148,7 @@ class NetworkService {
                 cpxData.setText(cpxResponse.text);
                 CPXLogger.log('New text ist available');
               } else {
-                CPXLogger.log('Only the old text ist available');
+                CPXLogger.log('Only the old text is available');
               }
             }
             controller.showCPXLayer();

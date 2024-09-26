@@ -27,9 +27,9 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
   void _startTimer() {
     _timer = Timer.periodic(
       Duration(seconds: 120),
-      (Timer t) => {
-        NetworkService().fetchSurveysAndTransactions(),
-        Controller.controller.showNotification(),
+      (Timer t) {
+        NetworkService().fetchSurveysAndTransactions();
+        Controller.controller.showNotification();
       },
     );
     CPXLogger.log("Timer for automatic survey check started");

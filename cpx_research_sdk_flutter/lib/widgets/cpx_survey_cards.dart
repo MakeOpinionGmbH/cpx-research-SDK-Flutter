@@ -206,7 +206,7 @@ class CPXCard extends StatelessWidget {
                   Icon(
                     Icons.watch_later_outlined,
                     color: config.accentColor,
-                    size: Theme.of(context).textTheme.subtitle1!.fontSize,
+                    size: Theme.of(context).textTheme.titleSmall!.fontSize,
                   ),
                   SizedBox(width: 5),
                   Text(
