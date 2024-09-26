@@ -139,8 +139,8 @@ class CPXCard extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            primary: config.cardBackgroundColor,
-            onPrimary: config.inactiveStarColor,
+            backgroundColor: config.cardBackgroundColor,
+            foregroundColor: config.inactiveStarColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20))),
         onPressed: () {
@@ -206,7 +206,7 @@ class CPXCard extends StatelessWidget {
                   Icon(
                     Icons.watch_later_outlined,
                     color: config.accentColor,
-                    size: Theme.of(context).textTheme.subtitle1!.fontSize,
+                    size: Theme.of(context).textTheme.titleSmall!.fontSize,
                   ),
                   SizedBox(width: 5),
                   Text(

@@ -1,3 +1,10 @@
+# CHANGELOG
+
+## 0.4.5
+* Update deprecated Flutter syntax
+* Update deprecated primary parameter
+* Fixed typo
+
 ## 0.4.4
 * Update Android gradle version, target and compile SDK to 31
 * Update `dart` sdk version to `>=2.18`
