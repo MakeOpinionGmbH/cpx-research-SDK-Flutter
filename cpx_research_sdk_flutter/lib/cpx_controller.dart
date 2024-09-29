@@ -1,18 +1,26 @@
-import 'package:cpx_research_sdk_flutter/widgets/browser_view.dart';
+/*
+ * cpx_controller.dart
+ * CPX Research
+ *
+ * Created by Dennis Kossmann on 7.7.2021.
+ * Copyright © 2021. All rights reserved.
+ */
+
+import 'package:cpx_research_sdk_flutter/enumerations/cpx_browser_tab.dart';
 import 'package:cpx_research_sdk_flutter/utils/cpx_logger.dart';
-import 'package:cpx_research_sdk_flutter/utils/network_service.dart';
+import 'package:cpx_research_sdk_flutter/utils/cpx_network_service.dart';
 import 'package:flutter/material.dart';
 
 import 'model/cpx_config.dart';
 
-class Controller {
-  static final Controller controller = Controller();
+class CPXController {
+  static final CPXController controller = CPXController();
   ValueNotifier<bool> areCPXWidgetsDisplayed = ValueNotifier(true);
   ValueNotifier<bool> isCPXResearchLayerDisplayed = ValueNotifier(false);
   ValueNotifier<bool> isCPXNotificationDisplayed = ValueNotifier(true);
 
   late CPXConfig config;
-  late BrowserTab activeTab;
+  late CPXBrowserTab activeTab;
   late bool isSingleSurveyDisplayed;
   String? singleSurveyID;
 
@@ -20,11 +28,11 @@ class Controller {
   void showWidgets() {
     areCPXWidgetsDisplayed.value = true;
     CPXLogger.log("Show CPX Widgets");
-    NetworkService().fetchSurveysAndTransactions();
+    CPXNetworkService().fetchSurveysAndTransactions();
   }
 
   /// [showBrowser] displays the webview widget and hides the banner widgets
-  void showBrowser({BrowserTab currentTab = BrowserTab.home, bool singleSurvey = false, String? surveyID}) {
+  void showBrowser({CPXBrowserTab currentTab = CPXBrowserTab.home, bool singleSurvey = false, String? surveyID}) {
     areCPXWidgetsDisplayed.value = false;
     CPXLogger.log("Show CPX Browser");
     activeTab = currentTab;
