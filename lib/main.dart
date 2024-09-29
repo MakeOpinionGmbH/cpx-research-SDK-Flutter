@@ -130,6 +130,23 @@ class _MyHomePageState extends State<MyHomePage> {
                   noSurveysWidget:
                       Text('I show up, if there are no surveys available'),
                 ),
+                SizedBox(height: 10),
+                Divider(color: Colors.black12),
+                SizedBox(height: 10),
+                Text(
+                  "Easiest way to show a CPX Browser Dialog\n(overwrites CPXConfig)",
+                  textAlign: TextAlign.center,
+                ),
+                ElevatedButton(
+                  onPressed: () => showCPXBrowserDialog(
+                      context: context,
+                      config: CPXConfig(appID: "1", userID: "1")),
+                  child: Text("Show CPX Browser Dialog"),
+                ),
+                SizedBox(height: 10),
+                Divider(color: Colors.black12),
+                SizedBox(height: 10),
+                Text('Advanced Features'),
                 ElevatedButton(
                   onPressed: () => Navigator.push(
                     context,
@@ -145,13 +162,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => markTransactionAsPaid("1", "2"),
                   child: Text("Mark Transaction as Paid"),
                 ),
-                ElevatedButton(
-                  onPressed: () => showCpxLayer(),
-                  child: Text("Show CPX"),
-                ),
-                ElevatedButton(
-                  onPressed: () => hideCpxLayer(),
-                  child: Text("Hide CPX"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => showCpxLayer(),
+                      child: Text("Show CPX Layer"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => hideCpxLayer(),
+                      child: Text("Hide CPX Layer"),
+                    ),
+                  ],
                 ),
                 ElevatedButton(
                   onPressed: () => showCPXBrowserOverlay(),

@@ -106,8 +106,11 @@ class _CPXResearchState extends State<CPXResearch> with WidgetsBindingObserver {
                                     ],
                                   ),
                                 )
-                              : CPXBrowserView(
-                                  CPXController.controller.activeTab),
+                              : Scaffold(
+                                  backgroundColor: Colors.black38,
+                                  body: CPXBrowserView(
+                                      CPXController.controller.activeTab),
+                                ),
                     ),
                   )
                 : const SizedBox(),

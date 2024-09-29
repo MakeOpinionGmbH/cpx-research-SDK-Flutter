@@ -6,9 +6,10 @@
  * Copyright © 2021. All rights reserved.
  */
 
+import 'package:cpx_research_sdk_flutter/cpx.dart';
+import 'package:cpx_research_sdk_flutter/widgets/cpx_browser_view.dart';
 import 'package:flutter/material.dart';
 
-import 'cpx_controller.dart';
 import 'model/cpx_response.dart';
 import 'utils/cpx_network_service.dart';
 
@@ -33,6 +34,25 @@ void showCPXBrowserOverlay([String? surveyID]) => surveyID != null
     ? CPXController.controller
         .showBrowser(singleSurvey: true, surveyID: surveyID)
     : CPXController.controller.showBrowser();
+
+void showCPXBrowserDialog({
+  required BuildContext context,
+  required CPXConfig config,
+  String? surveyID,
+}) {
+  CPXController.controller.config = config;
+  CPXNetworkService().fetchSurveysAndTransactions();
+
+  showDialog(
+    context: context,
+    builder: (context) => SizedBox.expand(
+      child: CPXBrowserView(
+        CPXBrowserTab.home,
+        onClose: () => Navigator.pop(context),
+      ),
+    ),
+  );
+}
 
 /// The function [fetchCPXSurveysAndTransactions] provides surveys and transactions via the survey and transaction listeners
 void fetchCPXSurveysAndTransactions() =>

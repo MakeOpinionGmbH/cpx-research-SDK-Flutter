@@ -79,49 +79,46 @@ class _CPXBrowserViewState extends State<CPXBrowserView> {
     ..loadRequest(CPXBrowserTab.home.url);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.black38,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  _BrowserNavigationButton(tab: CPXBrowserTab.help),
-                  const SizedBox(width: 2),
-                  _BrowserNavigationButton(tab: CPXBrowserTab.home),
-                  const SizedBox(width: 2),
-                  _BrowserNavigationButton(
-                    tab: CPXBrowserTab.close,
-                    onPressed: () {
-                      CPXLogger.log("Close CPX Browser");
-                      widget.onClose?.call() ??
-                          CPXController.controller.showWidgets();
-                    },
+  Widget build(BuildContext context) => SafeArea(
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _BrowserNavigationButton(tab: CPXBrowserTab.help),
+            const SizedBox(width: 2),
+            _BrowserNavigationButton(tab: CPXBrowserTab.home),
+            const SizedBox(width: 2),
+            _BrowserNavigationButton(
+              tab: CPXBrowserTab.close,
+              onPressed: () {
+                CPXLogger.log("Close CPX Browser");
+                widget.onClose?.call() ??
+                    CPXController.controller.showWidgets();
+              },
+            ),
+          ],
+        ),
+        Expanded(
+          child: ColoredBox(
+            color: Colors.white,
+            child: Stack(
+              children: [
+                WebViewWidget(controller: _webController!),
+                if (isLoading)
+                  LinearProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                        controller.config.accentColor),
+                    backgroundColor: Colors.white,
                   ),
-                ],
-              ),
-              Expanded(
-                child: ColoredBox(
-                  color: Colors.white,
-                  child: Stack(
-                    children: [
-                      WebViewWidget(controller: _webController!),
-                      if (isLoading)
-                        LinearProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(
-                              controller.config.accentColor),
-                          backgroundColor: Colors.white,
-                        ),
-                      if (isAlertDisplayed) showReloadOnError(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+                if (isAlertDisplayed) showReloadOnError(),
+              ],
+            ),
           ),
         ),
-      );
+      ],
+    ),
+  );
 
   Widget _BrowserNavigationButton({
     required CPXBrowserTab tab,

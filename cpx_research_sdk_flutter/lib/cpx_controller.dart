@@ -21,7 +21,7 @@ class CPXController {
 
   late CPXConfig config;
   late CPXBrowserTab activeTab;
-  late bool isSingleSurveyDisplayed;
+  bool isSingleSurveyDisplayed = false;
   String? singleSurveyID;
 
   /// [showWidgets] displays the banner widgets and hides the webview widget
