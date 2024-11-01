@@ -38,7 +38,6 @@ void showCPXBrowserOverlay([String? surveyID]) => surveyID != null
 void showCPXBrowserDialog({
   required BuildContext context,
   required CPXConfig config,
-  String? surveyID,
 }) {
   CPXController.controller.config = config;
   CPXNetworkService().fetchSurveysAndTransactions();
