@@ -1,13 +1,27 @@
+/*
+ * cpx_style.dart
+ * CPX Research
+ *
+ * Created by Dennis Kossmann on 7.7.2021.
+ * Copyright © 2021. All rights reserved.
+ */
 
+import 'package:cpx_research_sdk_flutter/enumerations/cpx_widget_position.dart';
 import 'package:flutter/material.dart';
 
 /// With [CPXStyle] you can style the Survey Widgets.
 ///
+/// The [width] and [height] define the size of the widget
+///
 /// The [position] defines where the widget is displayed.
+///
+/// The [singleSurvey] defines if only one survey is displayed
 ///
 /// The [text] is shown on the widget
 ///
 /// You can adjust the [textSize], if the default is too small or big
+///
+/// The [textColor] defines the color of the text
 ///
 /// The [backgroundColor] defines the background color of the widget
 ///
@@ -16,7 +30,7 @@ import 'package:flutter/material.dart';
 class CPXStyle {
   final double width;
   final double height;
-  final WidgetPosition position;
+  final CPXWidgetPosition position;
   final bool singleSurvey;
   final String text;
   final double textSize;
@@ -27,7 +41,7 @@ class CPXStyle {
   CPXStyle({
     this.width = 50,
     this.height = 200,
-    this.position = WidgetPosition.SideRight,
+    this.position = CPXWidgetPosition.SideRight,
     this.singleSurvey = false,
     this.text = "Survey",
     this.textSize = 10,
@@ -37,17 +51,3 @@ class CPXStyle {
   });
 }
 
-/// The [WidgetPosition] enum defines the Position of the widgets
-/// The notification widget is always horizontally centered at the top or bottom
-/// The sidebar widget can be displayed left or right
-/// The corner widget can be displayed left or right and at the top or bottom
-enum WidgetPosition {
-  SideLeft,
-  SideRight,
-  CornerTopLeft,
-  CornerTopRight,
-  CornerBottomRight,
-  CornerBottomLeft,
-  ScreenCenterTop,
-  ScreenCenterBottom
-}

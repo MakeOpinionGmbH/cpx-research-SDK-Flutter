@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 1.0.0 - Breaking
+* Added easiest showCPXBrowserDialog
+* Building with current flutter version `3.24.3`
+* Update `sdk` package version to `'>=3.5.0 <4.0.0`
+* Update `http` package version to `^1.2.2`
+* Update `json_annotation` package version to `^4.9.0`
+* Update `json_serializable` package version to `^6.6.1`
+* Update `webview_flutter` package version to `^4.9.0`
+* Update `build_runner` package version to `^2.4.12`
+* Added Copyright 
+* Refactoring for DRY Principle 
+* Refactored Enumerations
+* Fixed Deprecated imperative apply of Flutter's Gradle plugins
+
 ## 0.4.5
 * Update deprecated Flutter syntax
 * Update deprecated primary parameter

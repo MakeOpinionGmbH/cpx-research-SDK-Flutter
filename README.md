@@ -57,6 +57,17 @@ import 'package:cpx_research_sdk_flutter/cpx.dart';
 
 # Usage
 
+## Getting Started (Easiest)
+Simply add the showCPXBrowserDialog() function in your app, e.g. in any onPressed() function.
+```dart
+TextButton(
+  onPressed: () => showCPXBrowserDialog(
+      context: context,
+      config: CPXConfig(appID: "<Your app id>", userID: "<Your external user id>")),
+  child: const Text('Open CPX Browser'),
+),
+```
+
 ## Getting Started (Easy)
 Simply add the CPXResearch Widget in a Stack Widget anywhere in your app.
 

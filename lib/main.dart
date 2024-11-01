@@ -1,12 +1,10 @@
 import 'package:cpx_research_sdk_flutter/cpx.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(CPXDemoApp());
 
-CPXStyle cornerstyle = new CPXStyle(
-  position: WidgetPosition.CornerTopRight,
+CPXStyle cornerStyle = CPXStyle(
+  position: CPXWidgetPosition.CornerTopRight,
   width: 100,
   height: 100,
   text: "click here",
@@ -16,8 +14,8 @@ CPXStyle cornerstyle = new CPXStyle(
   roundedCorners: 100,
 );
 
-CPXStyle sidebarstyle = new CPXStyle(
-  position: WidgetPosition.SideLeft,
+CPXStyle sidebarStyle = CPXStyle(
+  position: CPXWidgetPosition.SideLeft,
   width: 50,
   height: 200,
   singleSurvey: true,
@@ -28,8 +26,8 @@ CPXStyle sidebarstyle = new CPXStyle(
   roundedCorners: 100,
 );
 
-CPXStyle notificationstyle = new CPXStyle(
-  position: WidgetPosition.ScreenCenterBottom,
+CPXStyle notificationStyle = CPXStyle(
+  position: CPXWidgetPosition.ScreenCenterBottom,
   width: 200,
   height: 100,
   text: "New Survey\nParticipate now!",
@@ -39,27 +37,23 @@ CPXStyle notificationstyle = new CPXStyle(
   roundedCorners: 20,
 );
 
-CPXConfig config = new CPXConfig(
+CPXConfig config = CPXConfig(
   appID: "5878",
   userID: "flutterTempUser",
   accentColor: Color(0xffFFAF20),
-  cornerWidget: cornerstyle,
-  sidebarWidget: sidebarstyle,
-  notificationWidget: notificationstyle,
+  cornerWidget: cornerStyle,
+  sidebarWidget: sidebarStyle,
+  notificationWidget: notificationStyle,
 );
 
-class MyApp extends StatelessWidget {
+class CPXDemoApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'CPX Flutter Demo'),
-      builder: (context, child) {
-        return Material(
+  Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: MyHomePage(title: 'CPX Flutter Demo'),
+        builder: (context, child) => Material(
           child: Stack(
             children: [
               child!,
@@ -67,10 +61,8 @@ class MyApp extends StatelessWidget {
               CPXResearch(config: config)
             ],
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }
 
 class MyHomePage extends StatefulWidget {
@@ -98,7 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
   /// [onBrowserVisibilityChanged] is called when the browser closes or opens
   void onBrowserVisibilityChanged() {
     // YOUR CODE
-    Controller.controller.areCPXWidgetsDisplayed.value ? print("Browser closed") : print("Browser opened");
+    CPXController.controller.areCPXWidgetsDisplayed.value
+        ? print("Browser closed")
+        : print("Browser opened");
   }
 
   /// Initialize all CPX components like logging and change listeners
@@ -108,7 +102,8 @@ class _MyHomePageState extends State<MyHomePage> {
     CPXLogger.getLogs;
     cpxData.surveys.addListener(onSurveyUpdate);
     cpxData.transactions.addListener(onTransactionUpdate);
-    Controller.controller.areCPXWidgetsDisplayed.addListener(onBrowserVisibilityChanged);
+    CPXController.controller.areCPXWidgetsDisplayed
+        .addListener(onBrowserVisibilityChanged);
   }
 
   @override
@@ -118,89 +113,105 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Flutter SDK Demo App',
-              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(title: Text(widget.title)),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Flutter SDK Demo App',
+                  style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                ),
+                Text('Version 1.0.0'),
+                SizedBox(height: 20),
+                CPXSurveyCards(
+                  noSurveysWidget:
+                      Text('I show up, if there are no surveys available'),
+                ),
+                SizedBox(height: 10),
+                Divider(color: Colors.black12),
+                SizedBox(height: 10),
+                Text(
+                  "Easiest way to show a CPX Browser Dialog\n(overwrites CPXConfig)",
+                  textAlign: TextAlign.center,
+                ),
+                ElevatedButton(
+                  onPressed: () => showCPXBrowserDialog(
+                      context: context,
+                      config: CPXConfig(appID: "1", userID: "1")),
+                  child: Text("Show CPX Browser Dialog"),
+                ),
+                SizedBox(height: 10),
+                Divider(color: Colors.black12),
+                SizedBox(height: 10),
+                Text('Advanced Features'),
+                ElevatedButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SecondRoute()),
+                  ),
+                  child: Text("Next Page"),
+                ),
+                ElevatedButton(
+                  onPressed: () => fetchCPXSurveysAndTransactions(),
+                  child: Text("Fetch Surveys and Transactions"),
+                ),
+                ElevatedButton(
+                  onPressed: () => markTransactionAsPaid("1", "2"),
+                  child: Text("Mark Transaction as Paid"),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => showCpxLayer(),
+                      child: Text("Show CPX Layer"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => hideCpxLayer(),
+                      child: Text("Hide CPX Layer"),
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () => showCPXBrowserOverlay(),
+                  child: Text("Show Browser Overlay"),
+                ),
+                ElevatedButton(
+                  onPressed: () =>
+                      showCPXBrowserOverlay(cpxData.surveys.value![0].id),
+                  child: Text("Show Single Survey Webview"),
+                ),
+                SizedBox(height: 60),
+              ],
             ),
-            Text('Version 0.4.5'),
-            SizedBox(height: 20),
-            CPXSurveyCards(noSurveysWidget: Text('I show up, if there are no surveys available'),),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SecondRoute()),
-                );
-              },
-              child: Text("Next Page"),
-            ),
-            ElevatedButton(
-              onPressed: () => fetchCPXSurveysAndTransactions(),
-              child: Text("Fetch Surveys and Transactions"),
-            ),
-            ElevatedButton(
-              onPressed: () => markTransactionAsPaid("1", "2"),
-              child: Text("Mark Transaction as Paid"),
-            ),
-            ElevatedButton(
-              onPressed: () => showCpxLayer(),
-              child: Text("Show CPX Layer"),
-            ),
-            ElevatedButton(
-              onPressed: () => hideCpxLayer(),
-              child: Text("Hide CPX Layer"),
-            ),
-            ElevatedButton(
-              onPressed: () => showBrowser(),
-              child: Text("Show Webview"),
-            ),
-            ElevatedButton(
-              onPressed: () => showBrowser(cpxData.surveys.value![0].id),
-              child: Text("Show Single Survey Webview"),
-            ),
-            SizedBox(height: 60),
-          ],
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class SecondRoute extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Route"),
-      ),
-      body: Stack(
-        children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Go back!'),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(title: Text("Second Route")),
+        body: Stack(
+          children: [
+            Center(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Go back!'),
+              ),
             ),
-          ),
-          CPXResearch(
-            config: CPXConfig(
-              appID: "1",
-              userID: "userid",
-              sidebarWidget: CPXStyle(),
+            CPXResearch(
+              config: CPXConfig(
+                appID: "1",
+                userID: "userid",
+                sidebarWidget: CPXStyle(),
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }

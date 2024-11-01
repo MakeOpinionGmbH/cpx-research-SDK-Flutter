@@ -1,9 +1,16 @@
+/*
+ * cpx_survey_cards.dart
+ * CPX Research
+ *
+ * Created by Dennis Kossmann on 16.9.2021.
+ * Copyright © 2021. All rights reserved.
+ */
+
 import 'package:cpx_research_sdk_flutter/model/cpx_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../cpx_data.dart';
-
 
 /// With [CPXSurveyCards] you can add the CPX Survey Cards
 ///
@@ -14,10 +21,16 @@ import '../cpx_data.dart';
 /// The [hideIfEmpty] defines if the entire widget is hidden if there are no surveys to display
 ///
 class CPXSurveyCards extends StatefulWidget {
-  const CPXSurveyCards({Key? key, this.config, this.noSurveysWidget, this.hideIfEmpty = false}) : super(key: key);
   final CPXCardConfig? config;
   final Widget? noSurveysWidget;
   final bool hideIfEmpty;
+
+  const CPXSurveyCards({
+    super.key,
+    this.config,
+    this.noSurveysWidget,
+    this.hideIfEmpty = false,
+  });
 
   @override
   _CPXSurveyCardsState createState() => _CPXSurveyCardsState();
@@ -28,45 +41,39 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   List<Survey> surveys = [];
   late CPXCardConfig config;
 
-  void onSurveyUpdate() {
-    setState(() => surveys = cpxData.surveys.value != null ? cpxData.surveys.value! : []);
-  }
+  _onSurveyUpdate() => setState(() => surveys = cpxData.surveys.value ?? []);
 
   @override
   void initState() {
-    cpxData.surveys.addListener(onSurveyUpdate);
-    config = widget.config ?? CPXCardConfig();
     super.initState();
+    cpxData.surveys.addListener(_onSurveyUpdate);
+    config = widget.config ?? CPXCardConfig();
   }
 
   @override
-  Widget build(BuildContext context) {
-    Orientation orientation = MediaQuery.of(context).orientation;
-    return surveys.isNotEmpty
-        ? SizedBox(
-            height: MediaQuery.of(context).size.width /
-                    (orientation == Orientation.portrait
-                        ? config.cardCount
-                        : config.cardCount * 2.5) +
-                30,
-            child: GridView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              itemCount: surveys.length,
-              scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                mainAxisSpacing: 5,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return CPXCard(surveys[index], config, cpxData.text.value);
-              },
+  Widget build(BuildContext context) => surveys.isNotEmpty
+      ? SizedBox(
+          height: MediaQuery.of(context).size.width /
+                  (MediaQuery.of(context).orientation == Orientation.portrait
+                      ? config.cardCount
+                      : config.cardCount * 2.5) +
+              30,
+          child: GridView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            itemCount: surveys.length,
+            scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              mainAxisSpacing: 5,
             ),
-          )
-        : widget.hideIfEmpty
-            ? Container()
-            : widget.noSurveysWidget ?? Text("No Surveys available");
-  }
+            itemBuilder: (BuildContext context, int index) =>
+                _CPXCard(surveys[index], config, cpxData.text.value),
+          ),
+        )
+      : widget.hideIfEmpty
+          ? const SizedBox()
+          : widget.noSurveysWidget ?? Text("No Surveys available");
 }
 
 /// With [CPXCardConfig] you can style the CPX Survey Cards
@@ -85,7 +92,6 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
 ///
 /// The [cardCount] defines how many cards are displayed next to each other and has an impact on the width of the cards
 ///
-
 class CPXCardConfig {
   final Color accentColor;
   final Color cardBackgroundColor;
@@ -106,8 +112,9 @@ class CPXCardConfig {
   });
 }
 
-class CPXCard extends StatelessWidget {
-  const CPXCard(
+
+class _CPXCard extends StatelessWidget {
+  const _CPXCard(
     this.survey,
     this.config,
     this.cpxText, {
@@ -118,111 +125,109 @@ class CPXCard extends StatelessWidget {
   final CPXText? cpxText;
   final CPXCardConfig config;
 
-  @override
-  Widget build(BuildContext context) {
-    Widget getStars() {
-      List<Icon> list = <Icon>[];
-      for (var i = 1; i <= 5; i++) {
-        list.add(
-          Icon(
-            Icons.star,
-            color: i <= survey.statisticsRatingAvg!
-                ? config.starColor
-                : config.inactiveStarColor,
-          ),
-        );
-      }
-      return new Row(children: list);
+  Widget _getStars() {
+    final List<Icon> list = [];
+    for (var i = 1; i <= 5; i++) {
+      list.add(
+        Icon(
+          Icons.star,
+          color: i <= survey.statisticsRatingAvg!
+              ? config.starColor
+              : config.inactiveStarColor,
+        ),
+      );
     }
+    return Row(children: list);
+  }
 
-    return Padding(
-      padding: const EdgeInsets.all(2),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            backgroundColor: config.cardBackgroundColor,
-            foregroundColor: config.inactiveStarColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20))),
-        onPressed: () {
-          HapticFeedback.selectionClick();
-          showBrowser(survey.id);
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                survey.payoutOriginal != null ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              survey.payoutOriginal ?? '?',
-                              style: TextStyle(
-                                color: config.textColor,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 18,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
-                          ),
-                          FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              survey.payout!,
-                              style: TextStyle(
-                                color: config.payoutColor,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    : FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Text(
-                          survey.payout!,
-                          style: TextStyle(
-                              color: config.accentColor, fontSize: 18),
-                        ),
-                      ),
-                FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    cpxText != null ? cpxText!.currency_name_plural! : 'Coins',
-                    style: TextStyle(color: config.accentColor),
-                  ),
-                ),
-              ],
-            ),
-            FittedBox(
-              fit: BoxFit.fitWidth,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(2),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: config.cardBackgroundColor,
+              foregroundColor: config.inactiveStarColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20))),
+          onPressed: () {
+            HapticFeedback.selectionClick();
+            showCPXBrowserOverlay(survey.id);
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
                 children: [
-                  Icon(
-                    Icons.watch_later_outlined,
-                    color: config.accentColor,
-                    size: Theme.of(context).textTheme.titleSmall!.fontSize,
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    '${survey.loi ?? ''} ${cpxText != null ? cpxText!.shortcurt_min : 'Mins'}',
-                    style: TextStyle(color: config.textColor),
+                  survey.payoutOriginal != null
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                survey.payoutOriginal ?? '?',
+                                style: TextStyle(
+                                  color: config.textColor,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 18,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
+                            ),
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                survey.payout ?? '?',
+                                style: TextStyle(
+                                  color: config.payoutColor,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            survey.payout ?? '?',
+                            style: TextStyle(
+                              color: config.accentColor,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                  FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      cpxText?.currency_name_plural ?? 'Coins',
+                      style: TextStyle(color: config.accentColor),
+                    ),
                   ),
                 ],
               ),
-            ),
-            FittedBox(
-              fit: BoxFit.fitWidth,
-              child: getStars(),
-            )
-          ],
+              FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.watch_later_outlined,
+                      color: config.accentColor,
+                      size: Theme.of(context).textTheme.titleSmall!.fontSize,
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      '${survey.loi ?? ''} ${cpxText?.shortcurt_min ?? 'Mins'}',
+                      style: TextStyle(color: config.textColor),
+                    ),
+                  ],
+                ),
+              ),
+              FittedBox(fit: BoxFit.fitWidth, child: _getStars())
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
