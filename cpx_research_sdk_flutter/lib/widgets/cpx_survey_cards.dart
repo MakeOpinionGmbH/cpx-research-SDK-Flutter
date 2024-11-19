@@ -24,12 +24,14 @@ class CPXSurveyCards extends StatefulWidget {
   final CPXCardConfig? config;
   final Widget? noSurveysWidget;
   final bool hideIfEmpty;
+  final EdgeInsets? padding;
 
   const CPXSurveyCards({
     super.key,
     this.config,
     this.noSurveysWidget,
     this.hideIfEmpty = false,
+    this.padding,
   });
 
   @override
@@ -41,11 +43,12 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   List<Survey> surveys = [];
   late CPXCardConfig config;
 
-  _onSurveyUpdate() => setState(() => surveys = cpxData.surveys.value ?? []);
+  _onSurveyUpdate() => _refreshSurveys();
 
   @override
   void initState() {
     super.initState();
+    _refreshSurveys();
     cpxData.surveys.addListener(_onSurveyUpdate);
     config = widget.config ?? CPXCardConfig();
   }
@@ -59,7 +62,7 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
                       : config.cardCount * 2.5) +
               30,
           child: GridView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            padding: widget.padding ?? EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             itemCount: surveys.length,
             scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),
@@ -67,13 +70,14 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
               crossAxisCount: 1,
               mainAxisSpacing: 5,
             ),
-            itemBuilder: (BuildContext context, int index) =>
-                _CPXCard(surveys[index], config, cpxData.text.value),
+            itemBuilder: (BuildContext context, int index) => _CPXCard(surveys[index], config, cpxData.text.value),
           ),
         )
       : widget.hideIfEmpty
           ? const SizedBox()
           : widget.noSurveysWidget ?? Text("No Surveys available");
+
+  void _refreshSurveys() => surveys = cpxData.surveys.value != null ? cpxData.surveys.value! : [];
 }
 
 /// With [CPXCardConfig] you can style the CPX Survey Cards
@@ -112,7 +116,6 @@ class CPXCardConfig {
   });
 }
 
-
 class _CPXCard extends StatelessWidget {
   const _CPXCard(
     this.survey,
@@ -131,9 +134,7 @@ class _CPXCard extends StatelessWidget {
       list.add(
         Icon(
           Icons.star,
-          color: i <= survey.statisticsRatingAvg!
-              ? config.starColor
-              : config.inactiveStarColor,
+          color: i <= survey.statisticsRatingAvg! ? config.starColor : config.inactiveStarColor,
         ),
       );
     }
@@ -147,8 +148,7 @@ class _CPXCard extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               backgroundColor: config.cardBackgroundColor,
               foregroundColor: config.inactiveStarColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
           onPressed: () {
             HapticFeedback.selectionClick();
             showCPXBrowserOverlay(survey.id);
