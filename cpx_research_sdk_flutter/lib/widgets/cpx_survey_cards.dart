@@ -70,7 +70,8 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
               crossAxisCount: 1,
               mainAxisSpacing: 5,
             ),
-            itemBuilder: (BuildContext context, int index) => _CPXCard(surveys[index], config, cpxData.text.value),
+            itemBuilder: (BuildContext context, int index) =>
+                _CPXCard(surveys[index], config, cpxData.text.value),
           ),
         )
       : widget.hideIfEmpty
@@ -116,6 +117,7 @@ class CPXCardConfig {
   });
 }
 
+
 class _CPXCard extends StatelessWidget {
   const _CPXCard(
     this.survey,
@@ -134,7 +136,9 @@ class _CPXCard extends StatelessWidget {
       list.add(
         Icon(
           Icons.star,
-          color: i <= survey.statisticsRatingAvg! ? config.starColor : config.inactiveStarColor,
+          color: i <= survey.statisticsRatingAvg!
+              ? config.starColor
+              : config.inactiveStarColor,
         ),
       );
     }
@@ -148,7 +152,8 @@ class _CPXCard extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               backgroundColor: config.cardBackgroundColor,
               foregroundColor: config.inactiveStarColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20))),
           onPressed: () {
             HapticFeedback.selectionClick();
             showCPXBrowserOverlay(survey.id);
