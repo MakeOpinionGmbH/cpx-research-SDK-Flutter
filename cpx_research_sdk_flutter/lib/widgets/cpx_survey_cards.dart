@@ -43,12 +43,14 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   List<Survey> surveys = [];
   late CPXCardConfig config;
 
-  _onSurveyUpdate() => _refreshSurveys();
+  _onSurveyUpdate() => setState(
+        () => surveys = _getSurveys(),
+      );
 
   @override
   void initState() {
     super.initState();
-    _refreshSurveys();
+    surveys = _getSurveys();
     cpxData.surveys.addListener(_onSurveyUpdate);
     config = widget.config ?? CPXCardConfig();
   }
@@ -62,7 +64,8 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
                       : config.cardCount * 2.5) +
               30,
           child: GridView.builder(
-            padding: widget.padding ?? EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            padding: widget.padding ??
+                EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             itemCount: surveys.length,
             scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),
@@ -78,7 +81,8 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
           ? const SizedBox()
           : widget.noSurveysWidget ?? Text("No Surveys available");
 
-  void _refreshSurveys() => surveys = cpxData.surveys.value != null ? cpxData.surveys.value! : [];
+  List<Survey> _getSurveys() =>
+      cpxData.surveys.value != null ? cpxData.surveys.value! : [];
 }
 
 /// With [CPXCardConfig] you can style the CPX Survey Cards
@@ -116,7 +120,6 @@ class CPXCardConfig {
     this.cardCount = 3,
   });
 }
-
 
 class _CPXCard extends StatelessWidget {
   const _CPXCard(
