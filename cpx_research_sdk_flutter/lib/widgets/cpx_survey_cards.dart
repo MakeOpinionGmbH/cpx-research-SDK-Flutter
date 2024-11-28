@@ -24,12 +24,14 @@ class CPXSurveyCards extends StatefulWidget {
   final CPXCardConfig? config;
   final Widget? noSurveysWidget;
   final bool hideIfEmpty;
+  final EdgeInsets? padding;
 
   const CPXSurveyCards({
     super.key,
     this.config,
     this.noSurveysWidget,
     this.hideIfEmpty = false,
+    this.padding,
   });
 
   @override
@@ -46,6 +48,7 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   @override
   void initState() {
     super.initState();
+    surveys = cpxData.surveys.value ?? [];
     cpxData.surveys.addListener(_onSurveyUpdate);
     config = widget.config ?? CPXCardConfig();
   }
@@ -59,7 +62,8 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
                       : config.cardCount * 2.5) +
               30,
           child: GridView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            padding: widget.padding ??
+                EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             itemCount: surveys.length,
             scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),
@@ -111,7 +115,6 @@ class CPXCardConfig {
     this.cardCount = 3,
   });
 }
-
 
 class _CPXCard extends StatelessWidget {
   const _CPXCard(
