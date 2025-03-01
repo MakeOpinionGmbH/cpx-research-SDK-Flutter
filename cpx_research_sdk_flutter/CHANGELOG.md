@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.1
+* Added padding to CPXSurveyCards
+* Added surveys loading to initState
+
 ## 1.0.0 - Breaking
 * Added easiest showCPXBrowserDialog
 * Building with current flutter version `3.24.3`
