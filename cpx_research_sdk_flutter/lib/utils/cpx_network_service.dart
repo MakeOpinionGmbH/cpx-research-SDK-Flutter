@@ -48,9 +48,9 @@ class CPXNetworkService {
     required CPXStyle style,
   }) {
     String backgroundColor =
-        ".${style.backgroundColor.value.toRadixString(16).substring(2)}";
+        ".${style.backgroundColor.toARGB32().toRadixString(16).substring(2)}";
     String textColor =
-        ".${style.textColor.value.toRadixString(16).substring(2)}";
+        ".${style.textColor.toARGB32().toRadixString(16).substring(2)}";
     Map<String, dynamic> params = _defaultRequestParameter;
     params['type'] = type.key;
     params['width'] = style.width.toString();

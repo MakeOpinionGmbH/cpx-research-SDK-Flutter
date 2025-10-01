@@ -42,7 +42,7 @@ class CPXNotification extends StatelessWidget {
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black54.withOpacity(0.2),
+                              color: Colors.black54.withValues(alpha: 0.2),
                               spreadRadius: 2,
                               blurRadius: 3,
                               offset: Offset(0, 3),
