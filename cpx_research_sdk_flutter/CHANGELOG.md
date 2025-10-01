@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.2
+* Update `http` package version to `^1.3.0`
+* Update `json_serializable` package version to `^6.9.0`
+* Update `webview_flutter` package version to `^4.10.0`
+* Update `build_runner` package version to `^2.4.13`
+
 ## 1.0.1
 * Added padding to CPXSurveyCards
 * Added surveys loading to initState
