@@ -25,6 +25,7 @@ class CPXSurveyCards extends StatefulWidget {
   final Widget? noSurveysWidget;
   final bool hideIfEmpty;
   final EdgeInsets? padding;
+  final CPXCardBuilder? builder;
 
   const CPXSurveyCards({
     super.key,
@@ -32,6 +33,7 @@ class CPXSurveyCards extends StatefulWidget {
     this.noSurveysWidget,
     this.hideIfEmpty = false,
     this.padding,
+    this.builder,
   });
 
   @override
@@ -42,8 +44,40 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
   CPXData cpxData = CPXData.cpxData;
   List<Survey> surveys = [];
   late CPXCardConfig config;
+  late final CPXCardBuilder cardBuilder;
 
   _onSurveyUpdate() => setState(() => surveys = cpxData.surveys.value ?? []);
+
+  Widget _defaultCPXCardBuilder(
+          List<Survey> surveys, CPXCardConfig config, CPXText? text) =>
+      surveys.isNotEmpty
+          ? SizedBox(
+              height: MediaQuery.of(context).size.width /
+                      (MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? config.cardCount
+                          : config.cardCount * 2.5) +
+                  30,
+              child: GridView.builder(
+                padding: widget.padding ??
+                    EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                itemCount: surveys.length,
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisSpacing: 5,
+                ),
+                itemBuilder: (BuildContext context, int index) => _CPXCard(
+                  surveys[index],
+                  config,
+                  cpxData.text.value!,
+                ),
+              ),
+            )
+          : widget.hideIfEmpty
+              ? const SizedBox()
+              : widget.noSurveysWidget ?? Text("No Surveys available");
 
   @override
   void initState() {
@@ -51,34 +85,16 @@ class _CPXSurveyCardsState extends State<CPXSurveyCards> {
     surveys = cpxData.surveys.value ?? [];
     cpxData.surveys.addListener(_onSurveyUpdate);
     config = widget.config ?? CPXCardConfig();
+    cardBuilder = widget.builder ?? _defaultCPXCardBuilder;
   }
 
   @override
-  Widget build(BuildContext context) => surveys.isNotEmpty
-      ? SizedBox(
-          height: MediaQuery.of(context).size.width /
-                  (MediaQuery.of(context).orientation == Orientation.portrait
-                      ? config.cardCount
-                      : config.cardCount * 2.5) +
-              30,
-          child: GridView.builder(
-            padding: widget.padding ??
-                EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            itemCount: surveys.length,
-            scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              mainAxisSpacing: 5,
-            ),
-            itemBuilder: (BuildContext context, int index) =>
-                _CPXCard(surveys[index], config, cpxData.text.value),
-          ),
-        )
-      : widget.hideIfEmpty
-          ? const SizedBox()
-          : widget.noSurveysWidget ?? Text("No Surveys available");
+  Widget build(BuildContext context) =>
+      cardBuilder(surveys, config, cpxData.text.value);
 }
+
+typedef CPXCardBuilder = Widget Function(
+    List<Survey> surveys, CPXCardConfig config, CPXText? text);
 
 /// With [CPXCardConfig] you can style the CPX Survey Cards
 ///

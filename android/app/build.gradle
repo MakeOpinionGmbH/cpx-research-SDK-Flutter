@@ -23,7 +23,8 @@ if (flutterVersionName == null) {
 }
 
 android {
-    compileSdkVersion 34
+    namespace "com.makeopinion.cpxresearchdemo.cpx_research_demo_flutter"
+    compileSdkVersion 36
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -32,7 +33,7 @@ android {
     defaultConfig {
         applicationId "com.makeopinion.cpxresearchdemo.cpx_research_demo_flutter"
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -46,4 +47,8 @@ android {
 
 flutter {
     source '../..'
+}
+
+kotlin {
+    jvmToolchain(17)
 }

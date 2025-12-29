@@ -27,7 +27,7 @@ class CPXCorner extends StatelessWidget {
             painter: _ClipShadowShadowPainter(
               clipper: _CornerPath(style.height, style.width),
               shadow: Shadow(
-                color: Colors.black54.withOpacity(0.2),
+                color: Colors.black54.withValues(alpha: 0.2),
                 blurRadius: 3,
                 offset: Offset(0, 3),
               ),
