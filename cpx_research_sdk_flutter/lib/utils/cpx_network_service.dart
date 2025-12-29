@@ -24,7 +24,7 @@ final String IMAGE_URL = "dyn-image.cpx-research.com";
 class CPXNetworkService {
   // TODO: Update package version here as well
   // The package_info_plus package just shows the app version not the package version and adding the pubspec.yaml to the assets is a security issue for flutter web.
-  final String version = "1.0.2";
+  final String version = "1.1.0";
 
   CPXController controller = CPXController.controller;
   CPXData cpxData = CPXData.cpxData;

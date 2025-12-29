@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 1.1.0
+* Added builder for CPX Survey cards 
+* Update `gradle` to `8.7`
+* Update `sdk` package version to `'>=3.6.0 <4.0.0`
+* Update `http` package version to `^1.5.0`
+* Update `json_serializable` package version to `^6.11.1`
+* Update `webview_flutter` package version to `^4.13.0`
+* Update `build_runner` package version to `^2.8.0`
+
 ## 1.0.2
 * Update `http` package version to `^1.3.0`
 * Update `json_serializable` package version to `^6.9.0`
